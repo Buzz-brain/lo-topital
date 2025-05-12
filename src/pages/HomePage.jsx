@@ -32,7 +32,7 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="relative bg-gray-900 text-white">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-accent-900/90"></div>
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-accent-900/90"></div> */}
           <img 
             src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
             alt="Digital Marketing Team" 

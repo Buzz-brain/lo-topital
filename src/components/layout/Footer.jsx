@@ -43,22 +43,22 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">Services</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Digital Marketing</Link>
+                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Google Ads</Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Graphic Design</Link>
+                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Content Creation</Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">UI/UX Design</Link>
+                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Social Media Marketing</Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Branding</Link>
+                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Branding Services</Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Website Development</Link>
+                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">Web Design & Development</Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">SEO Optimization</Link>
+                <Link to="/services" className="text-gray-300 hover:text-white transition-colors">SEO & SEM</Link>
               </li>
             </ul>
           </div>
@@ -95,16 +95,16 @@ const Footer = () => {
               <li className="flex items-start">
                 <MapPin className="mr-2 h-5 w-5 text-gray-300" />
                 <span className="text-gray-300">
-                  123 Digital Avenue, Tech District, CA 90210
+                  7/9 Wetheral Road, 2nd Floor, Beside Sterling Bank, Owerri
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-5 w-5 text-gray-300" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
+                <span className="text-gray-300">07012428863</span>
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-5 w-5 text-gray-300" />
-                <span className="text-gray-300">info@lotopital.com</span>
+                <span className="text-gray-300">thelotopital@gmail.com</span>
               </li>
             </ul>
           </div>

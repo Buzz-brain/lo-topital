@@ -111,7 +111,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Our Location</h3>
-                    <p className="text-gray-600">123 Digital Avenue, Tech District, CA 90210</p>
+                    <p className="text-gray-600">7/9 Wetheral Road, 2nd Floor, Beside Sterling Bank, Owerri.</p>
                   </div>
                 </div>
                 
@@ -121,7 +121,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Phone Number</h3>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
+                    <p className="text-gray-600">07012428863</p>
                   </div>
                 </div>
                 
@@ -131,7 +131,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">Email Address</h3>
-                    <p className="text-gray-600">info@lotopital.com</p>
+                    <p className="text-gray-600">thelotopital@gmail.com</p>
                   </div>
                 </div>
               </div>
