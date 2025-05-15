@@ -26,28 +26,40 @@ const AboutPage = () => {
   // Team members data
   const teamMembers = [
     {
-      name: "Sarah Johnson",
-      position: "Founder & CEO",
-      bio: "With over 15 years of experience in digital marketing and brand strategy, Sarah leads our agency with vision and expertise.",
-      image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      name: "Cyprian Vera Somtochi",
+      position: "Frontend Web developer",
+      bio: "Staying up-to-date with industry trends and technologies in order to deliver high-quality user experiences.",
+      image: "https://res.cloudinary.com/df2q6gyuq/image/upload/v1747312331/IMG_0225_ldb8qt.jpg"
     },
     {
-      name: "David Chen",
-      position: "Creative Director",
-      bio: "David brings 12 years of design experience, crafting award-winning visual identities for brands across various industries.",
-      image: "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      name: "Favour Onyekachi Emetu",
+      position: "Creative Storyteller & Digital Content Creator",
+      bio: "Turning ideas into engaging visuals and viral moments! Passionate about crafting content that captivates, educates, and inspires.",
+      image: "https://res.cloudinary.com/df2q6gyuq/image/upload/v1747312331/IMG-20250513-WA0043_nrh3pb.jpg"
     },
     {
-      name: "Emma Garcia",
-      position: "Head of Digital Marketing",
-      bio: "Emma specializes in data-driven marketing strategies that deliver measurable results and exceptional ROI for our clients.",
-      image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      name: "Obidiegwu kosi Collins ",
+      position: "Creative director ",
+      bio: "My goal is to grab attention, communicate faster, and make a strong impression.",
+      image: "https://res.cloudinary.com/df2q6gyuq/image/upload/v1747312334/IMG-20250515-WA0012_sqppwe.jpg"
     },
     {
-      name: "Michael Lee",
-      position: "Technical Director",
-      bio: "Michael leads our development team, creating innovative technical solutions and seamless digital experiences.",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      name: "Mere Kelechi",
+      position: "Creative Designer",
+      bio: "Transforming ideas into engaging visual experiences through design and technology.",
+      image: "https://res.cloudinary.com/df2q6gyuq/image/upload/v1747312331/IMG-20250213-WA0035_lorizf.jpg"
+    },
+    {
+      name: "Chibuike Daniel",
+      position: "Creative Graphics Designer",
+      bio: "A visual storyteller with a keen eye for design, Chibuike transforms ideas into stunning graphics. Skilled in teamwork, communication, and delivering on time—turning concepts into captivating visuals, one project at a time.",
+      image: "https://res.cloudinary.com/df2q6gyuq/image/upload/v1747312330/1747087268985_gxtfqz.jpg"
+    },
+    {
+      name: "Chinomso Nduoma",
+      position: "Full-Stack Developer",
+      bio: "Where Design Meets Functionality. Transforming concepts into visually stunning and user-friendly digital experiences.",
+      image: "https://res.cloudinary.com/df2q6gyuq/image/upload/v1747315700/6_jxkoqz.jpg"
     }
   ];
   
@@ -97,13 +109,30 @@ const AboutPage = () => {
               <span className="text-sm font-medium text-primary-600 mb-2 block">WHO WE ARE</span>
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Journey to Excellence</h2>
               <p className="text-gray-600 mb-4">
-                Founded in 2015, LO-TOPITAL began with a simple mission: to help brands navigate the complex digital landscape with clarity and purpose. What started as a small team of passionate digital enthusiasts has grown into a comprehensive agency serving clients worldwide.
+                Founded in 2020, we are on a mission to share access to tools, resources, and platforms that have traditionally been reserved for larger, well-established companies. Our journey began with a simple yet
+powerful idea: to level the playing
+field for small and emerging brands.
+
               </p>
               <p className="text-gray-600 mb-4">
-                We believe that exceptional digital experiences are built on a foundation of strategic thinking, creative innovation, and technical excellence. Our integrated approach ensures that every touchpoint of your brand's digital presence works harmoniously to achieve your business goals.
+                We understand the challenges these businesses face—limited budget, lack of access to
+advanced media tools, and the
+struggle to stand out in a crowded global market. That’s why we’ve built a platform that provides equal
+access to cutting-edge media solutions, enabling these brands to tell their stories,
+connect with their audiences, and compete on a global scale.
+
               </p>
               <p className="text-gray-600">
-                Today, we're proud to be a trusted partner to businesses of all sizes, from ambitious startups to established enterprises. Our commitment to excellence and results-driven approach has earned us recognition as a leader in the digital agency space.
+                We are more than just a service provider; we are your
+companion in growth. Our team of passionate
+innovators, strategists, and
+creatives is dedicated to
+empowering brands with the
+tools they need to thrive. From AI-driven marketing platforms, and expertise to data analytics and content
+creation resources, we equip
+businesses with the technology and expertise to
+navigate the dynamic media landscape with confidence.
+
               </p>
             </motion.div>
             
@@ -261,7 +290,7 @@ const AboutPage = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center"
           >
             <motion.div variants={fadeIn}>
-              <p className="text-4xl md:text-5xl font-bold mb-2">8+</p>
+              <p className="text-4xl md:text-5xl font-bold mb-2">5+</p>
               <p className="text-xl text-white/80">Years of Experience</p>
             </motion.div>
             
@@ -276,7 +305,7 @@ const AboutPage = () => {
             </motion.div>
             
             <motion.div variants={fadeIn}>
-              <p className="text-4xl md:text-5xl font-bold mb-2">25+</p>
+              <p className="text-4xl md:text-5xl font-bold mb-2">15+</p>
               <p className="text-xl text-white/80">Team Members</p>
             </motion.div>
           </motion.div>

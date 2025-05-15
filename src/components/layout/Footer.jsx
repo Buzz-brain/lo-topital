@@ -18,8 +18,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">LO-TOPITAL</h3>
-            <p className="mb-4 text-gray-300">
+            <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747324077/logomax_ukrsxa.png" width="130px" alt="lo-topital_logo" />
+            <p className="mb-4 mt-3 text-gray-300">
               Your partner in digital transformation. We help brands grow and succeed in the digital landscape.
             </p>
             <div className="flex space-x-4">

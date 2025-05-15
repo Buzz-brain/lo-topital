@@ -219,7 +219,7 @@ const ContactPage = () => {
                         onChange={handleChange}
                         required
                         className="input w-full"
-                        placeholder="john@example.com"
+                        placeholder="john@gmail.com"
                       />
                     </div>
                     
@@ -234,7 +234,7 @@ const ContactPage = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         className="input w-full"
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="+234 9123456780"
                       />
                     </div>
                     
@@ -266,12 +266,12 @@ const ContactPage = () => {
                       className="input w-full"
                     >
                       <option value="">Select a service</option>
-                      <option value="digital-marketing">Digital Marketing</option>
-                      <option value="graphic-design">Graphic Design</option>
-                      <option value="ui-ux-design">UI/UX Design</option>
-                      <option value="branding">Branding</option>
-                      <option value="website-development">Website Development</option>
-                      <option value="seo-optimization">SEO Optimization</option>
+                      <option value="google-ads">Google Ads</option>
+                      <option value="branding">Branding Solution</option>
+                      <option value="web-dev">Website Design & Development</option>
+                      <option value="content">Content Strategy</option>
+                      <option value="seo-sem">SEO & SEM</option>
+                      <option value="social-media">Social Media Marketing</option>
                     </select>
                   </div>
                   
@@ -326,8 +326,9 @@ const ContactPage = () => {
             variants={fadeIn}
             className="rounded-xl overflow-hidden shadow-sm"
           >
+            {/* <iframe src="https://www.google.com/maps/embed?pb=!4v1747321907365!6m8!1m7!1s4ZwCUyVNlJmQ4u_8kJjebw!2m2!1d5.492403582832678!2d7.034289383028426!3f143.9356550257833!4f-0.784579678513083!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.3059445135!2d-74.25986548248684!3d40.69714941932609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sca!4v1577482704066!5m2!1sen!2sca" 
+              src="https://www.google.com/maps/embed?pb=!4v1747321907365!6m8!1m7!1s4ZwCUyVNlJmQ4u_8kJjebw!2m2!1d5.492403582832678!2d7.034289383028426!3f143.9356550257833!4f-0.784579678513083!5f0.7820865974627469" 
               width="100%" 
               height="450" 
               style={{ border: 0 }} 

@@ -37,7 +37,7 @@ const Header = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'bg-white shadow-md py-3'
-          : 'bg-transparent py-5'
+          : 'bg-transparent py-2'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -45,7 +45,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 text-transparent bg-clip-text">
-              LO-TOPITAL
+              <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747323436/LOGO_br7net.png" width="35px" height="35px" alt="lo-topital_logo" />
             </span>
           </Link>
           
