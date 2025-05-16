@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Users, Award, Clock, Lightbulb } from 'lucide-react';
+import { Users, Shield, Zap, Award, Lightbulb, Trophy, Star, CheckCircle } from 'lucide-react';
 
 const AboutPage = () => {
   // Animation variants
@@ -192,41 +192,44 @@ navigate the dynamic media landscape with confidence.
           >
             <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 mb-4">
-                <Lightbulb size={24} />
+                <CheckCircle size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Innovation</h3>
+              <h3 className="text-xl font-semibold mb-2">Integrity</h3>
               <p className="text-gray-600">
-                We embrace creative thinking and cutting-edge solutions to solve complex challenges.
+                We do what we say and say what we do, even when no one is watching.
               </p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 mb-4">
-                <Award size={24} />
+                <Lightbulb size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Excellence</h3>
+              <h3 className="text-xl font-semibold mb-2">Innovation</h3>
               <p className="text-gray-600">
-                We hold ourselves to the highest standards in everything we do, from strategy to execution.
+                We challenge the ordinary—because breakthroughs happen when you dare to think differently.
               </p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center text-accent-600 mb-4">
-                <Users size={24} />
+                <Zap size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Collaboration</h3>
+              <h3 className="text-xl font-semibold mb-2">Empowerment</h3>
               <p className="text-gray-600">
-                We believe in the power of partnership and work closely with our clients as true extensions of their team.
+                We give brands the power to freely experiment, change their narrative, and take charge of their own future
               </p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="bg-white p-8 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 mb-4">
-                <Clock size={24} />
+                <Award size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Integrity</h3>
+              <h3 className="text-xl font-semibold mb-2">Excellence</h3>
               <p className="text-gray-600">
-                We operate with honesty, transparency, and ethical standards in all our interactions.
+                We embody quality & standard in
+everything we do, from strategy to execution, 
+constantly rasing the
+bar and inspiring others.
               </p>
             </motion.div>
           </motion.div>
