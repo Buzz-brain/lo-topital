@@ -24,7 +24,7 @@ const Footer = () => {
             LOTOPITAL GLOBAL
             </span>
             <p className="mb-4 mt-3 text-gray-300">
-              Your partner in digital transformation. We help brands grow and succeed in the digital landscape.
+              Your companion in growth. We give brands power to take charge of their own future.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
