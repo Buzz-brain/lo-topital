@@ -18,7 +18,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747324077/logomax_ukrsxa.png" width="130px" alt="lo-topital_logo" />
+            {/* <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747324077/logomax_ukrsxa.png" width="130px" alt="lo-topital_logo" /> */}
+            <span className="text-2xl font-bold text-white bg-clip-text">
+            LOTOPITAL GLOBAL
+            </span>
             <p className="mb-4 mt-3 text-gray-300">
               Your partner in digital transformation. We help brands grow and succeed in the digital landscape.
             </p>
