@@ -52,7 +52,7 @@ const HomePage = () => {
               Digital Solutions for Modern Brands
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Transform Your Digital <span style={{ color: "#0404a6" }}>Presence</span> With Our Expertise
+              Transform Your Digital <span className="text-primary-400">Presence</span> With Our Expertise
             </h1>
             <p className="text-lg md:text-xl text-gray-100 mb-8 max-w-2xl">
               We help ambitious brands thrive in the digital landscape with innovative strategies and cutting-edge design solutions.
