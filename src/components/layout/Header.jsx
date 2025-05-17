@@ -68,12 +68,12 @@ const Header = () => {
                 {item.name}
               </NavLink>
             ))}
-            <Link
+            {/* <Link
               to="/admin/login"
               className="btn btn-primary"
             >
               Admin Login
-            </Link>
+            </Link> */}
           </nav>
           
           {/* Mobile Menu Button */}

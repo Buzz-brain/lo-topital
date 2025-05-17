@@ -199,9 +199,8 @@ const BlogPage = () => {
                           {post.title}
                         </Link>
                       </h2>
-                      <p className="text-gray-600 mb-4">
-                        {post.excerpt}
-                      </p>
+                      <p className="text-gray-600 mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt.replace(/\n/g, '<br>') }} />
+
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <img
@@ -211,13 +210,13 @@ const BlogPage = () => {
                           />
                           <span className="font-medium">{post.author}</span>
                         </div>
-                        <Link
+                        {/* <Link
                           to="#"
                           className="inline-flex items-center text-primary-600 font-medium hover:text-primary-700"
                         >
                           Read More
                           <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
+                        </Link> */}
                       </div>
                     </div>
                   </motion.article>

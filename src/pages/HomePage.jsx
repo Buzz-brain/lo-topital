@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Zap, Shield, Users } from 'lucide-react';
+import { ArrowRight, CheckCircle, Sparkles, Shield, Users } from 'lucide-react';
 import { services } from '../data/services';
 import ServiceCard from '../components/home/ServiceCard';
 import TestimonialCard from '../components/home/TestimonialCard';
@@ -96,7 +96,7 @@ const HomePage = () => {
           >
             <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-sm">
               <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 mb-4">
-                <Zap size={24} />
+                <Sparkles size={24} />
               </div>
               <h3 className="text-xl font-semibold mb-2">Innovative Approach</h3>
               <p className="text-gray-600">
