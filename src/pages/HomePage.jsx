@@ -55,7 +55,7 @@ const HomePage = () => {
               Transform Your Digital <span className="text-primary-400">Presence</span> With Our Expertise
             </h1>
             <p className="text-lg md:text-xl text-gray-100 mb-8 max-w-2xl">
-              We help ambitious brands thrive in the digital landscape with innovative strategies and cutting-edge design solutions.
+              We empower small & emerging brands to thrive in a global marketplace through compelling storytelling, strategic advertising and transformative branding solutions–so your brand stick in hearts and mind.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/services" className="btn btn-primary">
