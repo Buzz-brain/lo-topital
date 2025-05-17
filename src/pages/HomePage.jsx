@@ -182,7 +182,7 @@ const HomePage = () => {
       </section>
       
       {/* CTA Section */}
-      <section className="py-20 bg-primary-900 text-white">
+      <section style={{ "background-color": "#0404a6" }} className="py-20 text-white">
         <div className="container">
           <motion.div
             initial="hidden"
@@ -230,7 +230,7 @@ const HomePage = () => {
               name="Sarah Thompson"
               company="Nexus Tech"
               image="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              quote="LO-TOPITAL completely transformed our online presence. Their strategic approach to digital marketing has resulted in a 200% increase in qualified leads."
+              quote="LOTOPITAL completely transformed our online presence. Their strategic approach to digital marketing has resulted in a 200% increase in qualified leads."
               variants={fadeIn}
             />
             
@@ -246,7 +246,7 @@ const HomePage = () => {
               name="Emma Davis"
               company="Horizon Media"
               image="https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              quote="Working with LO-TOPITAL on our rebranding was a game-changer. Their creative vision and attention to detail exceeded our expectations."
+              quote="Working with LOTOPITAL on our rebranding was a game-changer. Their creative vision and attention to detail exceeded our expectations."
               variants={fadeIn}
             />
           </motion.div>

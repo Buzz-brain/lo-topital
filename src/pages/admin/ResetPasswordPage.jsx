@@ -60,7 +60,7 @@ const ResetPasswordPage = () => {
           <div className="text-center mb-8">
             <Link to="/" className="inline-block">
               <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 text-transparent bg-clip-text">
-                LO-TOPITAL
+                LOTOPITAL
               </span>
             </Link>
             <h1 className="text-2xl font-bold mt-6 mb-2">Reset Password</h1>

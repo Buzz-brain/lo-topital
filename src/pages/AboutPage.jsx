@@ -89,7 +89,7 @@ const AboutPage = () => {
               Our Story
             </span>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-              We Are LO-TOPITAL
+              We Are LOTOPITAL
             </h1>
             <p className="text-lg text-gray-100 mb-4 max-w-2xl">
               A passionate team of digital experts dedicated to transforming brands and driving success in the digital landscape.
@@ -147,7 +147,7 @@ navigate the dynamic media landscape with confidence.
             >
               <img 
                 src="https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                alt="LO-TOPITAL team collaboration" 
+                alt="LOTOPITAL team collaboration" 
                 className="rounded-lg shadow-lg w-full"
               />
               <div className="absolute -bottom-8 -left-8 bg-white p-4 rounded-lg shadow-lg">

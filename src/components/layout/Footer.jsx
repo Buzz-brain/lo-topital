@@ -18,8 +18,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            {/* <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747324077/logomax_ukrsxa.png" width="130px" alt="lo-topital_logo" /> */}
-            <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747323436/LOGO_br7net.png" width="55px" alt="lo-topital_logo" />
+            {/* <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747324077/logomax_ukrsxa.png" width="130px" alt="lotopital_logo" /> */}
+            <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747323436/LOGO_br7net.png" width="55px" alt="lotopital_logo" />
             <span className="text-xl font-bold text-white bg-clip-text">
             LOTOPITAL GLOBAL
             </span>
@@ -117,7 +117,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              &copy; {currentYear} LO-TOPITAL. All rights reserved.
+              &copy; {currentYear} LOTOPITAL. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link to="#" className="text-gray-400 hover:text-white text-sm transition-colors">

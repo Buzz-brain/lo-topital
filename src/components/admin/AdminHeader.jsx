@@ -14,7 +14,7 @@ const AdminHeader = () => {
         <div className="flex items-center">
           <Link to="/admin/dashboard" className="flex items-center">
             <span className="font-bold text-xl bg-gradient-to-r from-primary-600 to-accent-600 text-transparent bg-clip-text">
-              LO-TOPITAL
+              LOTOPITAL
             </span>
             <span className="ml-2 text-sm font-medium text-gray-500">Admin</span>
           </Link>

@@ -336,7 +336,7 @@ const ContactPage = () => {
               allowFullScreen="" 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-              title="LO-TOPITAL Office Location"
+              title="LOTOPITAL Office Location"
             />
           </motion.div>
         </div>

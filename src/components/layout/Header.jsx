@@ -46,7 +46,7 @@ const Header = () => {
           <Link to="/" className="flex items-center">
             {/* <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 text-transparent bg-clip-text"> */}
             <span className="text-2xl font-bold text-custom bg-clip-text">
-              {/* <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747323436/LOGO_br7net.png" width="35px" height="35px" alt="lo-topital_logo" /> */}
+              {/* <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747323436/LOGO_br7net.png" width="35px" height="35px" alt="lotopital_logo" /> */}
               LOTOPITAL GLOBAL
             </span>
           </Link>

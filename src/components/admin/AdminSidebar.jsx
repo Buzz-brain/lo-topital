@@ -38,7 +38,7 @@ const AdminSidebar = () => {
               exit={{ opacity: 0 }}
               className="font-bold text-lg"
             >
-              LO-TOPITAL
+              LOTOPITAL
             </motion.span>
           )}
           <button
