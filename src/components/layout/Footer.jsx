@@ -19,7 +19,8 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             {/* <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747324077/logomax_ukrsxa.png" width="130px" alt="lo-topital_logo" /> */}
-            <span className="text-2xl font-bold text-white bg-clip-text">
+            <img src="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747323436/LOGO_br7net.png" width="55px" alt="lo-topital_logo" />
+            <span className="text-xl font-bold text-white bg-clip-text">
             LOTOPITAL GLOBAL
             </span>
             <p className="mb-4 mt-3 text-gray-300">
