@@ -222,31 +222,49 @@ const HomePage = () => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-200px" }}
             variants={staggerContainer}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             <TestimonialCard
-              name="Sarah Thompson"
-              company="Nexus Tech"
-              image="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              quote="LOTOPITAL completely transformed our online presence. Their strategic approach to digital marketing has resulted in a 200% increase in qualified leads."
+              name="Pius Saamba"
+              company="CEO Samba Clothing"
+              image="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747526780/pius_wj8ge9.jpg"
+              quote="As a long-term client, I’ve been consistently impressed by LOTOPITAL’s professionalism & companionship. Whether it’s digital marketing, content creation, or branding, they are with you every step of the way. A trusted partner for any digital media needs."
               variants={fadeIn}
             />
             
             <TestimonialCard
-              name="Michael Chen"
-              company="Quantum Retail"
-              image="https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              quote="Their team's expertise in UI/UX design revolutionized our e-commerce platform. We've seen a significant improvement in user engagement and conversion rates."
+              name="Victor Malvin"
+              company="CEO VIMAC GROUP ENGLAND"
+              image="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747526787/victor_q4qkg2.jpg"
+              quote="LOTOPITAL drove real results for our business. 125 customers in 24 Hours. That was a good ROI. Their ability to adapt to trends while staying true to our brand identity is remarkable. 10/10!"
               variants={fadeIn}
             />
             
             <TestimonialCard
-              name="Emma Davis"
-              company="Horizon Media"
-              image="https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              quote="Working with LOTOPITAL on our rebranding was a game-changer. Their creative vision and attention to detail exceeded our expectations."
+              name="Will Angel"
+              company="CEO MORESTYLE AFRICA"
+              image="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747526783/will_dtoaml.jpg"
+              quote="The video content produced by LOTOPITAL exceeded our expectations. Their storytelling, and production quality were top-notch. They understood our brand voice and delivered a final product that resonated with our audience. A truly professional team!"
+              variants={fadeIn}
+            />
+
+            <TestimonialCard
+              name="Eze Christian"
+              company="EXCELLENT TOUCH FINISHING"
+              image="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747526783/eze_atezzx.jpg"
+              quote="I know there are great brands out there and LOTOPITAL is one of them. Their services 10X our social engagement and conversions. They have a responsive team. Great stuff."
+              variants={fadeIn}
+            />
+
+            <TestimonialCard
+              name="Isaac Irebun"
+              company="Aquila Errand Services"
+              image="https://res.cloudinary.com/df2q6gyuq/image/upload/v1747528329/isaac_crmu4a.jpg"
+              quote="The major thing that stood out for me, was their calm approach and attention to details.
+I got my business registered under 7 days, and my corporate account set up, which was actually faster than I expected.
+I highly recommend them."
               variants={fadeIn}
             />
           </motion.div>

@@ -258,13 +258,16 @@ bar and inspiring others.
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            // className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="flex flex-wrap justify-center gap-8"
           >
             {teamMembers.map((member, index) => (
               <motion.div 
                 key={index}
                 variants={fadeIn}
-                className="bg-white rounded-xl shadow-sm overflow-hidden group"
+                // className="bg-white rounded-xl shadow-sm overflow-hidden group"
+                className="bg-white rounded-xl shadow-sm overflow-hidden group w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)]"
+
               >
                 <div className="h-72 overflow-hidden">
                   <img
