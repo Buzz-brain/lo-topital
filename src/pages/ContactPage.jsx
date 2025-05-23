@@ -59,11 +59,7 @@ const ContactPage = () => {
       }
     } catch (error) {
       console.error("Error sending email:", error);
-      setFormStatus({
-        submitted: false,
-        error: true,
-        message: "An error occurred while submitting the form.",
-      });
+      toast.error("An error occurred while submitting the form.");
     }
   };
 
