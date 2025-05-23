@@ -116,12 +116,12 @@ const Header = () => {
                     {item.name}
                   </NavLink>
                 ))}
-                <Link
+                {/* <Link
                   to="/admin/login"
                   className="btn btn-primary w-full justify-center"
                 >
                   Admin Login
-                </Link>
+                </Link> */}
               </nav>
             </motion.div>
           )}
