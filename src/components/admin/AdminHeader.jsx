@@ -1,12 +1,36 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Bell, User, LogOut, Settings } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AdminHeader = () => {
   const { currentUser, logout } = useAuth();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      .then((data) => {
+        // Handle successful registration
+        console.log(data);
+        toast.success("Logging out...");
+        setTimeout(() => {
+          navigate('/admin/login');
+        }, 5000);
+      })
+      .catch((error) => {
+        // Handle registration error
+        console.error(error);
+        toast.error(error.message);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-3">
@@ -38,6 +62,8 @@ const AdminHeader = () => {
               </span>
             </button>
             
+            <ToastContainer />
+            
             <AnimatePresence>
               {isProfileMenuOpen && (
                 <motion.div
@@ -66,7 +92,7 @@ const AdminHeader = () => {
                     Settings
                   </Link>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                   >
                     <LogOut size={16} className="mr-2" />

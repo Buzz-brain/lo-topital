@@ -1,7 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 const apiURL = import.meta.env.VITE_API_URL;
 
-
 // Create Auth Context
 const AuthContext = createContext();
 
@@ -29,26 +28,31 @@ export const AuthProvider = ({ children }) => {
   }, []);
   
   // Login function
-  const login = (email, password) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = MOCK_USERS.find(
-          (u) => u.email === email && u.password === password
-        );
-        
-        if (user) {
-          // Remove password from user object
-          const { password, ...userWithoutPassword } = user;
-          setCurrentUser(userWithoutPassword);
-          localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
-          resolve(userWithoutPassword);
-        } else {
-          reject(new Error('Invalid email or password'));
-        }
-      }, 1000); // Simulate network delay
-    });
+  const login = async (email, password) => {
+    try {
+      const response = await fetch(`${apiURL}/admin-login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login successful, handle the response
+        return data;
+      } else {
+        // Login failed, throw an error
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      throw error;
+    }
   };
-  
+
   // Register function
   const signup = async (name, email, password, confirmPassword) => {
     try {
@@ -64,7 +68,6 @@ export const AuthProvider = ({ children }) => {
 
     if (response.ok) {
       // Registration successful, handle response
-      console.log(data);
       return data;
     } else {
       // Handle error
@@ -77,11 +80,25 @@ export const AuthProvider = ({ children }) => {
   };
   
   // Logout function
-  const logout = () => {
-    setCurrentUser(null);
-    localStorage.removeItem('currentUser');
+  const logout = async () => {
+    try {
+      const response = await fetch(`${apiURL}/admin-logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Logout successful, handle the response
+        return data;
+      } else {
+        // Logout failed, throw an error
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      throw error;
+    }
   };
-  
+
   // Reset password function (mock)
   const resetPassword = (email) => {
     return new Promise((resolve, reject) => {

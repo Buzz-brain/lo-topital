@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LogIn, AlertCircle } from 'lucide-react';
+import { LogIn, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   
   const { login } = useAuth();
@@ -15,14 +16,37 @@ const LoginPage = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (email == "") {
+      return setError('Email is required');
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      return setError('Invalid email format');
+    }
+
+    if (password == "") {
+      return setError('Password is required');
+    }
     
     try {
       setError('');
       setLoading(true);
       
-      // await login(email, password);
-      navigate('/admin/dashboard');
+      await login(email, password)
+      .then((data) => {
+        // Handle successful registration
+        console.log(data);
+        setSuccess('Login successful! Redirecting...');
+        setTimeout(() => {
+          navigate('/admin/dashboard');
+        }, 2000); // Redirect after 2 seconds
+      })
+      .catch((error) => {
+        // Handle registration error
+        console.error(error);
+        setError(error.message);
+      });
     } catch (error) {
+      // Login failed, display the error message
       setError(error.message);
     } finally {
       setLoading(false);
@@ -54,8 +78,15 @@ const LoginPage = () => {
               <span>{error}</span>
             </div>
           )}
+
+          {success && (
+            <div className="mb-4 p-3 bg-green-50 text-green-600 rounded-md flex items-center">
+              <CheckCircle className="h-5 w-5 mr-2" />
+              <span>{success}</span>
+            </div>
+          )}
           
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email Address
