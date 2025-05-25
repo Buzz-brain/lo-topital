@@ -38,10 +38,10 @@ const LoginPage = () => {
         setSuccess('Login successful! Redirecting...');
         setTimeout(() => {
           navigate('/admin/dashboard');
-        }, 2000); // Redirect after 2 seconds
+        }, 2000);
       })
       .catch((error) => {
-        // Handle registration error
+        // Handle login error
         console.error(error);
         setError(error.message);
       });
@@ -107,9 +107,6 @@ const LoginPage = () => {
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   Password
                 </label>
-                <Link to="/admin/forgot-password" className="text-sm text-primary-600 hover:text-primary-700">
-                  Forgot password?
-                </Link>
               </div>
               <input
                 type="password"
@@ -120,6 +117,10 @@ const LoginPage = () => {
                 placeholder="••••••••"
                 required
               />
+
+              <Link to="/admin/forgot-password" className="text-sm text-primary-600 hover:text-primary-700 float-right mt-2 mb-4">
+                Forgot password?
+              </Link>
             </div>
             
             <button

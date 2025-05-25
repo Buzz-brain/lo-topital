@@ -99,35 +99,46 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Reset password function (mock)
-  const resetPassword = (email) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = MOCK_USERS.find((u) => u.email === email);
-        
-        if (user) {
-          resolve(true);
-        } else {
-          reject(new Error('User not found'));
-        }
-      }, 1000);
-    });
+  // Forgot Password function
+  const forgotPassword = async (email) => {
+    try {
+      const response = await fetch(`${apiURL}/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      throw error;
+    }
   };
-  
-  // Update password function (mock)
-  const updatePassword = (email, password) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const userIndex = MOCK_USERS.findIndex((u) => u.email === email);
-        
-        if (userIndex !== -1) {
-          MOCK_USERS[userIndex].password = password;
-          resolve(true);
-        } else {
-          reject(new Error('User not found'));
-        }
-      }, 1000);
-    });
+
+  // Reset password function
+  const resetPassword = async (token, password) => {
+    try {
+      const response = await fetch(`${apiURL}/reset-password/${token}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      throw error;
+    }
   };
   
   const value = {
@@ -135,8 +146,8 @@ export const AuthProvider = ({ children }) => {
     login,
     signup,
     logout,
+    forgotPassword,
     resetPassword,
-    updatePassword,
     loading,
   };
   

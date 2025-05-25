@@ -10,7 +10,7 @@ const ForgotPasswordPage = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { resetPassword } = useAuth();
+  const { forgotPassword } = useAuth();
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,11 +20,24 @@ const ForgotPasswordPage = () => {
       setError('');
       setLoading(true);
       
-      await resetPassword(email);
-      setMessage('Check your email for further instructions');
+      await forgotPassword(email)
+      .then((data) => {
+        // Handle successful registration
+        console.log(data);
+        setMessage('Check your email for further instructions');
+      })
+      .catch((error) => {
+        // Handle login error
+        console.error(error);
+        setError(error.message);
+      });
+
     } catch (error) {
+      // Handle forgot password error
+      console.error(error);
       setError(error.message);
     } finally {
+      // Forgot password failed, display the error message
       setLoading(false);
     }
   };

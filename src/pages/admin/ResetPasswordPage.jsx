@@ -1,45 +1,57 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Save, AlertCircle } from 'lucide-react';
+import { Save, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const ResetPasswordPage = () => {
+  const { token } = useParams();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   
-  const { updatePassword } = useAuth();
+  const { resetPassword } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  // In a real app, we would get the token and email from the URL
-  // For this demo, we'll use a mock token and email
-  const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get('token') || 'mock-token';
-  const email = queryParams.get('email') || 'admin@lotopital.com';
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validate passwords
-    if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+    if (password == "") {
+      return setError('Password is required');
     }
-    
+
     if (password.length < 6) {
       return setError('Password must be at least 6 characters long');
+    }
+
+    if (password.length > 8) {
+      return setError('Password must not exceed 8 characters');
+    }
+
+    if (password !== confirmPassword) {
+      return setError('Passwords do not match');
     }
     
     try {
       setError('');
       setLoading(true);
       
-      // In a real app, we would send the token along with the new password
-      await updatePassword(email, password);
-      navigate('/admin/login', { 
-        state: { message: 'Password has been reset successfully. You can now log in with your new password.' } 
+      await resetPassword(token, password)
+      .then((data) => {
+        // Handle successful password reset
+        console.log(data);
+        setSuccess('Password reset successful');
+        setTimeout(() => {
+          navigate('/admin/login');
+        }, 2000);
+      })
+      .catch((error) => {
+        // Handle password reset error
+        console.error(error);
+        setError(error.message);
       });
     } catch (error) {
       setError(error.message);
@@ -73,8 +85,15 @@ const ResetPasswordPage = () => {
               <span>{error}</span>
             </div>
           )}
+
+          {success && (
+            <div className="mb-4 p-3 bg-green-50 text-green-600 rounded-md flex items-center">
+              <CheckCircle className="h-5 w-5 mr-2" />
+              <span>{success}</span>
+            </div>
+          )}
           
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}noValidate>
             <div className="mb-4">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                 New Password

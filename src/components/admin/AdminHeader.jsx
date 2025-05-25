@@ -23,7 +23,7 @@ const AdminHeader = () => {
         }, 5000);
       })
       .catch((error) => {
-        // Handle registration error
+        // Handle logout error
         console.error(error);
         toast.error(error.message);
       });
