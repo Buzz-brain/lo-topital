@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { UserPlus, AlertCircle } from 'lucide-react';
+import { UserPlus, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const SignupPage = () => {
@@ -12,10 +12,10 @@ const SignupPage = () => {
     confirmPassword: ''
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   
   const { signup } = useAuth();
-  const navigate = useNavigate();
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,18 +54,19 @@ const SignupPage = () => {
     
     try {
       setError('');
+      setSuccess('');
       setLoading(true);
       
       await signup(formData.name, formData.email, formData.password, formData.confirmPassword )
       .then((data) => {
         // Handle successful registration
         console.log(data);
-        
-        navigate('/admin/dashboard');
+        setSuccess('Registration successful! Please check your email inbox to verify your account.');
       })
       .catch((error) => {
         // Handle registration error
         console.error(error);
+        setError(error.message);
       });
     } catch (error) {
       setError(error.message);
@@ -99,7 +100,14 @@ const SignupPage = () => {
               <span>{error}</span>
             </div>
           )}
-          
+
+          {success && (
+            <div className="mb-4 p-3 bg-green-50 text-green-600 rounded-md flex items-center">
+              <CheckCircle className="h-5 w-5 mr-2" />
+              <span>{success}</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} noValidate>
             <div className="mb-4">
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">

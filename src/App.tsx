@@ -9,6 +9,7 @@ import ContactPage from './pages/ContactPage';
 import BlogPage from './pages/BlogPage';
 import LoginPage from './pages/admin/LoginPage';
 import SignupPage from './pages/admin/SignupPage';
+import VerifyEmail from './pages/admin/VerifyEmailPage';
 import ForgotPasswordPage from './pages/admin/ForgotPasswordPage';
 import ResetPasswordPage from './pages/admin/ResetPasswordPage';
 import DashboardPage from './pages/admin/DashboardPage';
@@ -35,6 +36,7 @@ function App() {
             <Route path="signup" element={<SignupPage />} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
             <Route path="reset-password" element={<ResetPasswordPage />} />
+            <Route path="verify-email/:token" element={<VerifyEmail />} />
             
             {/* Protected Admin Routes */}
             <Route>
