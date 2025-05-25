@@ -26,20 +26,47 @@ const SignupPage = () => {
     e.preventDefault();
     
     // Validate form
-    if (formData.password !== formData.confirmPassword) {
-      return setError('Passwords do not match');
+    if (formData.name == "") {
+      return setError('Name is required');
     }
-    
+
+    if (formData.email == "") {
+      return setError('Email is required');
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+      return setError('Invalid email format');
+    }
+
+    if (formData.password == "") {
+      return setError('Password is required');
+    }
+
     if (formData.password.length < 6) {
       return setError('Password must be at least 6 characters long');
+    }
+
+    if (formData.password.length > 8) {
+      return setError('Password must not exceed 8 characters');
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      return setError('Passwords do not match');
     }
     
     try {
       setError('');
       setLoading(true);
       
-      await signup(formData.email, formData.password, formData.name);
-      navigate('/admin/dashboard');
+      await signup(formData.name, formData.email, formData.password, formData.confirmPassword )
+      .then((data) => {
+        // Handle successful registration
+        console.log(data);
+        
+        navigate('/admin/dashboard');
+      })
+      .catch((error) => {
+        // Handle registration error
+        console.error(error);
+      });
     } catch (error) {
       setError(error.message);
     } finally {
@@ -73,10 +100,10 @@ const SignupPage = () => {
             </div>
           )}
           
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="mb-4">
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
+                Name
               </label>
               <input
                 type="text"

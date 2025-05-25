@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const apiURL = import.meta.env.VITE_API_URL;
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const ContactPage = () => {
     message: "",
     service: "",
   });
+  const [loading, setLoading] = useState(false);
 
   // Animation variants
   const fadeIn = {
@@ -33,8 +35,9 @@ const ContactPage = () => {
     e.preventDefault();
 
     try {
-      // const response = await fetch("http://localhost:3000/api/send-email", {
-      const response = await fetch("https://lotopital-backend.vercel.app/api/send-email", {
+      setLoading(true);
+
+      const response = await fetch(`${apiURL}/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,6 +45,8 @@ const ContactPage = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
+        setLoading(false);
+
         toast.success("Your message has been sent successfully. We'll get back to you shortly.");
 
         // Reset form after successful submission
@@ -54,10 +59,12 @@ const ContactPage = () => {
           service: "",
         });
       } else {
+        setLoading(false);
         const errorData = await response.json();
         toast.error(errorData.message);
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error sending email:", error);
       toast.error("An error occurred while submitting the form.");
     }
@@ -349,10 +356,27 @@ const ContactPage = () => {
                   />
                 </div>
 
-                <button type="submit" className="btn btn-primary">
+                
+                <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary w-full"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Sending message...
+                </span>
+              ) : (
+                <>
                   Send Message
                   <Send className="ml-2 h-4 w-4" />
-                </button>
+                </>
+              )}
+            </button>
               </form>
             </motion.div>
           </div>

@@ -1,4 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react';
+const apiURL = import.meta.env.VITE_API_URL;
+
 
 // Create Auth Context
 const AuthContext = createContext();
@@ -48,34 +50,30 @@ export const AuthProvider = ({ children }) => {
   };
   
   // Register function
-  const signup = (email, password, name) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Check if user already exists
-        const existingUser = MOCK_USERS.find((u) => u.email === email);
-        
-        if (existingUser) {
-          reject(new Error('Email already in use'));
-        } else {
-          // In a real app, you would send this to your backend
-          // and the backend would create the user
-          const newUser = {
-            id: (MOCK_USERS.length + 1).toString(),
-            email,
-            password, // In real app, this would be hashed
-            name,
-          };
-          
-          MOCK_USERS.push(newUser);
-          
-          // Remove password from returned user object
-          const { password: _, ...userWithoutPassword } = newUser;
-          setCurrentUser(userWithoutPassword);
-          localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
-          resolve(userWithoutPassword);
-        }
-      }, 1000); // Simulate network delay
+  const signup = async (name, email, password, confirmPassword) => {
+    try {
+    const response = await fetch(`${apiURL}/admin-register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password, confirmPassword }),
     });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // Registration successful, handle response
+      console.log(data);
+      return data;
+    } else {
+      // Handle error
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
   };
   
   // Logout function
