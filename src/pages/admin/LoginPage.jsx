@@ -42,8 +42,15 @@ const LoginPage = () => {
       })
       .catch((error) => {
         // Handle login error
-        console.error(error);
-        setError(error.message);
+        if (error.message === "Email not verified") {
+          setError(error.message);
+          setTimeout(() => {
+            navigate('/admin/resend-verification');
+          }, 2000);
+        } else {
+          console.error(error);
+          setError(error.message);
+        }
       });
     } catch (error) {
       // Login failed, display the error message
