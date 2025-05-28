@@ -4,39 +4,49 @@ const apiURL = import.meta.env.VITE_API_URL;
 // Create Auth Context
 const AuthContext = createContext();
 
-// Mock user data for demonstration
-const MOCK_USERS = [
-  {
-    id: '1',
-    email: 'admin@lotopital.com',
-    password: 'admin123', // In real app, this would be hashed
-    name: 'Admin User',
-  }
-];
-
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  // Check if user is logged in from localStorage on mount
+
+  // Check if user is logged in
   useEffect(() => {
-    const user = localStorage.getItem('currentUser');
-    if (user) {
-      setCurrentUser(JSON.parse(user));
-    }
-    setLoading(false);
+    const fetchUserDetails = async () => {
+      try {
+        const res = await fetch(`${apiURL}/get-user-details`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setCurrentUser(data);
+        } else {
+          setCurrentUser(null);
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+        setCurrentUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserDetails();
   }, []);
-  
+
   // Login function
   const login = async (email, password) => {
     try {
       const response = await fetch(`${apiURL}/admin-login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include',
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -56,35 +66,35 @@ export const AuthProvider = ({ children }) => {
   // Register function
   const signup = async (name, email, password, confirmPassword) => {
     try {
-    const response = await fetch(`${apiURL}/admin-register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, password, confirmPassword }),
-    });
+      const response = await fetch(`${apiURL}/admin-register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, confirmPassword }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      // Registration successful, handle response
-      return data;
-    } else {
-      // Handle error
-      throw new Error(data.message);
+      if (response.ok) {
+        // Registration successful, handle response
+        return data;
+      } else {
+        // Handle error
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
   };
-  
+
   // Logout function
   const logout = async () => {
     try {
       const response = await fetch(`${apiURL}/admin-logout`, {
-        method: 'POST',
-        credentials: 'include',
+        method: "POST",
+        credentials: "include",
       });
       const data = await response.json();
       if (response.ok) {
@@ -103,9 +113,9 @@ export const AuthProvider = ({ children }) => {
   const forgotPassword = async (email) => {
     try {
       const response = await fetch(`${apiURL}/forgot-password`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       });
@@ -124,9 +134,9 @@ export const AuthProvider = ({ children }) => {
   const resetPassword = async (token, password) => {
     try {
       const response = await fetch(`${apiURL}/reset-password/${token}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ password }),
       });
@@ -140,7 +150,7 @@ export const AuthProvider = ({ children }) => {
       throw error;
     }
   };
-  
+
   const value = {
     currentUser,
     login,
@@ -150,7 +160,7 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     loading,
   };
-  
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

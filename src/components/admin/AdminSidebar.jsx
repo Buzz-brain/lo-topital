@@ -1,25 +1,29 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { 
   LayoutDashboard, 
   FileText, 
   Users, 
   Settings, 
   Mail, 
-  ChevronLeft 
+  ChevronLeft,
+  Folder
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const AdminSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { currentUser } = useAuth();
   
   // Sidebar navigation items
   const navigationItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
-    { name: 'Blog Posts', icon: FileText, path: '/admin/dashboard' },
-    { name: 'Users', icon: Users, path: '/admin/dashboard' },
-    { name: 'Messages', icon: Mail, path: '/admin/dashboard' },
-    { name: 'Settings', icon: Settings, path: '/admin/dashboard' },
+    { name: 'Category', icon: Folder, path: '/admin/category' },
+    { name: 'Blog Posts', icon: FileText, path: '/admin/blogposts' },
+    { name: 'Users', icon: Users, path: '/admin/users' },
+    { name: 'Messages', icon: Mail, path: '/admin/messages' },
+    { name: 'Settings', icon: Settings, path: '/admin/settings' },
   ];
   
   return (
@@ -82,20 +86,20 @@ const AdminSidebar = () => {
         ))}
       </nav>
       
-      <div className="p-4 border-t border-gray-700">
+      <div className="p-2 border-t border-gray-700">
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-semibold">
-            A
+          <div className="w-8 h-8 rounded-full p-3 bg-primary-100 flex items-center justify-center text-primary-600 font-semibold">
+            {currentUser?.name?.charAt(0) || 'A'}
           </div>
           {!isCollapsed && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="ml-3"
+              className="ml-2"
             >
-              <p className="text-sm font-medium">Admin User</p>
-              <p className="text-xs text-gray-400">admin@lotopital.com</p>
+              <p className="text-sm font-medium">{currentUser?.name}</p>
+              <p className="text-xs text-gray-400">{ currentUser?.email }</p>
             </motion.div>
           )}
         </div>

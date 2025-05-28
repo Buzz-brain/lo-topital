@@ -12,7 +12,7 @@ const ProtectedRoute = () => {
       </div>
     );
   }
-  
+
   // Redirect to login if not authenticated
   return currentUser ? <Outlet /> : <Navigate to="/admin/login" />;
 };

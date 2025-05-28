@@ -40,7 +40,6 @@ const AdminHeader = () => {
             <span className="font-bold text-xl bg-gradient-to-r from-primary-600 to-accent-600 text-transparent bg-clip-text">
               LOTOPITAL
             </span>
-            <span className="ml-2 text-sm font-medium text-gray-500">Admin</span>
           </Link>
         </div>
         
