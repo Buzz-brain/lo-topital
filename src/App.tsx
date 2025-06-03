@@ -15,6 +15,7 @@ import ForgotPasswordPage from './pages/admin/ForgotPasswordPage';
 import ResetPasswordPage from './pages/admin/ResetPasswordPage';
 import DashboardPage from './pages/admin/DashboardPage';
 import CategoryPage from './pages/admin/CategoryPage';
+import PostDetailPage from './pages/admin/PostDetailPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -42,11 +43,12 @@ function App() {
             <Route path="resend-verification" element={<ResendVerificationPage />} />
             
             {/* Protected Admin Routes */}
-            {/* <Route> */}
-            <Route element={<ProtectedRoute />}>
+            <Route>
+            {/* <Route element={<ProtectedRoute />}> */}
               <Route element={<AdminLayout />}>
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="category" element={<CategoryPage />} />
+                <Route path="post/:id" element={<PostDetailPage />} />
               </Route>
             </Route>
           </Route>

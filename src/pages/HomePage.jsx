@@ -1,32 +1,51 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Sparkles, Shield, Users } from 'lucide-react';
-import { services } from '../data/services';
-import ServiceCard from '../components/home/ServiceCard';
-import TestimonialCard from '../components/home/TestimonialCard';
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight, CheckCircle, Sparkles, Shield, Users } from "lucide-react";
+import { services } from "../data/services";
+import ServiceCard from "../components/home/ServiceCard";
+import TestimonialCard from "../components/home/TestimonialCard";
 
 const HomePage = () => {
   // Animation variants
   const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  };
-  
-  // Animation sequence for staggered children
-  const staggerContainer = {
-    hidden: { opacity: 0 },
+    hidden: {
+      rotateY: 180,
+      opacity: 0,
+      transition: { duration: 1, ease: "easeInOut" },
+    },
     visible: {
+      rotateY: 0,
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
+      transition: { duration: 1, ease: "easeInOut" },
+    },
   };
-  
+  const pulse = {
+    hidden: { scale: 1 },
+    visible: {
+      scale: [1, 1.1, 1],
+      transition: { duration: 0.8, repeat: Infinity },
+    },
+  };
+
+  // Animation sequence for staggered children
+  const wiggle = {
+    hidden: { rotate: 0 },
+    visible: {
+      rotate: [0, 5, -5, 5, -5, 0],
+      transition: { duration: 1 },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: { scaleX: 1.2, scaleY: 0.8, opacity: 0 },
+    visible: {
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
     <div className="pt-16">
       {/* Hero Section */}
@@ -34,13 +53,13 @@ const HomePage = () => {
         <div className="absolute inset-0 overflow-hidden">
           {/* <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-accent-900/90"></div> */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#0606c6]/90 to-[#c50a0a]/80"></div>
-          <img 
-            src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-            alt="Digital Marketing Team" 
+          <img
+            src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Digital Marketing Team"
             className="w-full h-full object-cover opacity-30"
           />
         </div>
-        
+
         <div className="container relative min-h-[90vh] flex flex-col justify-center py-20">
           <motion.div
             initial="hidden"
@@ -52,24 +71,46 @@ const HomePage = () => {
               Digital Solutions for Modern Brands
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Transform Your Digital <span className="text-primary-400">Presence</span> With Our Expertise
+              Transform Your Digital{" "}
+              <span className="text-primary-400">Presence</span> With Our
+              Expertise
             </h1>
             <p className="text-lg md:text-xl text-gray-100 mb-8 max-w-2xl">
-              We empower small & emerging brands to thrive in a global marketplace through compelling storytelling, strategic advertising and transformative branding solutions–so your brand stick in hearts and mind.
+              We empower small & emerging brands to thrive in a global
+              marketplace through compelling storytelling, strategic advertising
+              and transformative branding solutions–so your brand stick in
+              hearts and mind.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/services" className="btn btn-primary">
-                Explore Our Services
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-              <Link to="/contact" className="btn btn-outline border-white text-white hover:bg-white/10">
-                Contact Us
-              </Link>
+            <div className="flex flex-wrap gap-6">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={pulse}
+                className="max-w-5xl"
+              >
+                <Link to="/services" className="btn btn-primary">
+                  Explore Our Services
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </motion.div>
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={pulse}
+                className="max-w-5xl"
+              >
+                <Link
+                  to="/contact"
+                  className="btn btn-outline border-white text-white hover:bg-white/10"
+                >
+                  Contact Us
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         </div>
       </section>
-      
+
       {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="container">
@@ -80,13 +121,18 @@ const HomePage = () => {
             variants={fadeIn}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <span className="text-sm font-medium text-primary-600 mb-2 block">WHY CHOOSE US</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">We Deliver Exceptional Results</h2>
+            <span className="text-sm font-medium text-primary-600 mb-2 block">
+              WHY CHOOSE US
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              We Deliver Exceptional Results
+            </h2>
             <p className="text-gray-600 text-lg">
-              Our team combines creativity, technical expertise, and strategic thinking to deliver solutions that drive growth and success.
+              Our team combines creativity, technical expertise, and strategic
+              thinking to deliver solutions that drive growth and success.
             </p>
           </motion.div>
-          
+
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -94,49 +140,67 @@ const HomePage = () => {
             variants={staggerContainer}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
-            <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-sm">
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-6 rounded-xl shadow-sm"
+            >
               <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 mb-4">
                 <Sparkles size={24} />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Innovative Approach</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                Innovative Approach
+              </h3>
               <p className="text-gray-600">
-                We stay ahead of trends and technologies to deliver forward-thinking solutions.
+                We stay ahead of trends and technologies to deliver
+                forward-thinking solutions.
               </p>
             </motion.div>
-            
-            <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-sm">
+
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-6 rounded-xl shadow-sm"
+            >
               <div className="w-12 h-12 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 mb-4">
                 <CheckCircle size={24} />
               </div>
               <h3 className="text-xl font-semibold mb-2">Results Driven</h3>
               <p className="text-gray-600">
-                Our strategies are designed to deliver measurable results and meaningful ROI.
+                Our strategies are designed to deliver measurable results and
+                meaningful ROI.
               </p>
             </motion.div>
-            
-            <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-sm">
+
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-6 rounded-xl shadow-sm"
+            >
               <div className="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center text-accent-600 mb-4">
                 <Users size={24} />
               </div>
               <h3 className="text-xl font-semibold mb-2">Expert Team</h3>
               <p className="text-gray-600">
-                Our specialists bring years of experience and passion to every project.
+                Our specialists bring years of experience and passion to every
+                project.
               </p>
             </motion.div>
-            
-            <motion.div variants={fadeIn} className="bg-white p-6 rounded-xl shadow-sm">
+
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-6 rounded-xl shadow-sm"
+            >
               <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 mb-4">
                 <Shield size={24} />
               </div>
               <h3 className="text-xl font-semibold mb-2">End-to-End Support</h3>
               <p className="text-gray-600">
-                We're with you every step of the way, from strategy development to execution.
+                We're with you every step of the way, from strategy development
+                to execution.
               </p>
             </motion.div>
           </motion.div>
         </div>
       </section>
-      
+
       {/* Services Section */}
       <section className="py-20">
         <div className="container">
@@ -147,13 +211,18 @@ const HomePage = () => {
             variants={fadeIn}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <span className="text-sm font-medium text-primary-600 mb-2 block">OUR SERVICES</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Comprehensive Digital Solutions</h2>
+            <span className="text-sm font-medium text-primary-600 mb-2 block">
+              OUR SERVICES
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Comprehensive Digital Solutions
+            </h2>
             <p className="text-gray-600 text-lg">
-              We offer a wide range of services to help your business thrive in the digital world.
+              We offer a wide range of services to help your business thrive in
+              the digital world.
             </p>
           </motion.div>
-          
+
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -162,15 +231,19 @@ const HomePage = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {services.slice(0, 3).map((service) => (
-              <ServiceCard key={service.id} service={service} variants={fadeIn} />
+              <ServiceCard
+                key={service.id}
+                service={service}
+                variants={fadeIn}
+              />
             ))}
           </motion.div>
-          
+
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={fadeIn}
+            variants={pulse}
             className="text-center mt-12"
           >
             <Link to="/services" className="btn btn-primary">
@@ -180,9 +253,12 @@ const HomePage = () => {
           </motion.div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
-      <section style={{ "background-color": "#0404a6" }} className="py-20 text-white">
+      <section
+        style={{ "background-color": "#0404a6" }}
+        className="py-20 text-white"
+      >
         <div className="container">
           <motion.div
             initial="hidden"
@@ -191,17 +267,31 @@ const HomePage = () => {
             variants={fadeIn}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Digital Presence?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Ready to Transform Your Digital Presence?
+            </h2>
             <p className="text-lg text-white/80 mb-8">
-              Let's collaborate to create digital experiences that elevate your brand and drive results.
+              Let's collaborate to create digital experiences that elevate your
+              brand and drive results.
             </p>
-            <Link to="/contact" className="btn bg-white text-primary-900 hover:bg-white/90">
+            <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={pulse}
+            className="text-center mt-12"
+          >
+            <Link
+              to="/contact"
+              className="btn bg-white text-primary-900 hover:bg-white/90"
+            >
               Get Started Today
             </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>
-      
+
       {/* Testimonials Section */}
       <section className="py-20 bg-gray-50">
         <div className="container">
@@ -212,13 +302,18 @@ const HomePage = () => {
             variants={fadeIn}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <span className="text-sm font-medium text-primary-600 mb-2 block">TESTIMONIALS</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+            <span className="text-sm font-medium text-primary-600 mb-2 block">
+              TESTIMONIALS
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              What Our Clients Say
+            </h2>
             <p className="text-gray-600 text-lg">
-              Don't just take our word for it. Here's what our clients have to say about working with us.
+              Don't just take our word for it. Here's what our clients have to
+              say about working with us.
             </p>
           </motion.div>
-          
+
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -233,7 +328,7 @@ const HomePage = () => {
               quote="As a long-term client, I’ve been consistently impressed by LOTOPITAL’s professionalism & companionship. Whether it’s digital marketing, content creation, or branding, they are with you every step of the way. A trusted partner for any digital media needs."
               variants={fadeIn}
             />
-            
+
             <TestimonialCard
               name="Victor Malvin"
               company="CEO VIMAC GROUP ENGLAND"
@@ -241,7 +336,7 @@ const HomePage = () => {
               quote="LOTOPITAL drove real results for our business. 125 customers in 24 Hours. That was a good ROI. Their ability to adapt to trends while staying true to our brand identity is remarkable. 10/10!"
               variants={fadeIn}
             />
-            
+
             <TestimonialCard
               name="Will Angel"
               company="CEO MORESTYLE AFRICA"

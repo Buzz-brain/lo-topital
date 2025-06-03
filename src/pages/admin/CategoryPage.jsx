@@ -147,7 +147,10 @@ const CategoryPage = () => {
       )}
 
       {loading ? (
-        <p>Loading categories...</p>
+        <div className="flex justify-center items-center min-h-[200px]">
+          <Loader className="animate-spin text-gray-500 mr-2" size={40} />
+          Fetching category data
+        </div>
       ) : categories.length === 0 ? (
         <p>No categories found.</p>
       ) : (
