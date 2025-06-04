@@ -49,7 +49,7 @@ const PostDetailPage = () => {
     );
 
   return (
-    <section className="py-5">
+    <section className="py-3">
       <div className="container mx-auto max-w-5xl px-4">
         <motion.button
           onClick={() => navigate(-1)}

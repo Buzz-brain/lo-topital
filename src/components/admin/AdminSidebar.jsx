@@ -21,9 +21,9 @@ const AdminSidebar = () => {
     { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
     { name: 'Category', icon: Folder, path: '/admin/category' },
     { name: 'Blog Posts', icon: FileText, path: '/admin/blogposts' },
-    { name: 'Users', icon: Users, path: '/admin/users' },
+    // { name: 'Users', icon: Users, path: '/admin/users' },
     { name: 'Messages', icon: Mail, path: '/admin/messages' },
-    { name: 'Settings', icon: Settings, path: '/admin/settings' },
+    // { name: 'Settings', icon: Settings, path: '/admin/settings' },
   ];
   
   return (

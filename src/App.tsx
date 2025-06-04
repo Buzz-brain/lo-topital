@@ -16,7 +16,9 @@ import ResetPasswordPage from './pages/admin/ResetPasswordPage';
 import DashboardPage from './pages/admin/DashboardPage';
 import CategoryPage from './pages/admin/CategoryPage';
 import PostDetailPage from './pages/admin/PostDetailPage';
-import ProtectedRoute from './components/auth/ProtectedRoute';
+import BlogPostsPage from './pages/admin/BlogPostsPage';
+import MessagePage from './pages/admin/MessagePage';
+// import ProtectedRoute from './components/auth/ProtectedRoute';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
             <Route path="services" element={<ServicesPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="blog" element={<BlogPage />} />
+            <Route path="post/:id" element={<BlogPage />} />
           </Route>
           
           {/* Auth Routes */}
@@ -49,6 +52,8 @@ function App() {
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="category" element={<CategoryPage />} />
                 <Route path="post/:id" element={<PostDetailPage />} />
+                <Route path="blogposts" element={<BlogPostsPage />} />
+                <Route path="messages" element={<MessagePage />} />
               </Route>
             </Route>
           </Route>
