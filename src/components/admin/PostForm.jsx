@@ -7,7 +7,7 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
     title: post?.title || "",
     excerpt: post?.excerpt || "",
     content: post?.content || "",
-    primaryImage: post?.primaryImage || "",
+    primaryImage: post?.primaryImage || null,
     category: post?.category._id || "",
     tag: Array.isArray(post?.tag)
       ? post.tag
@@ -15,8 +15,11 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
     isTrending: post?.isTrending || false,
   });
   const [tagInput, setTagInput] = useState(formData.tag.join(", "));
-  const [filePreview, setFilePreview] = useState(post?.primaryImage || "");
+  const [filePreview, setFilePreview] = useState(
+    typeof post?.primaryImage === "string" ? post.primaryImage : ""
+  );
   const [submitting, setSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState({}); // For validation errors
 
   useEffect(() => {
     setFormData({
@@ -54,9 +57,45 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
     }
   };
 
+  // Add validation function
+  const validateForm = () => {
+    const errors = {};
+
+      console.log("tags", tagInput)
+
+    if (!formData.title.trim()) {
+      errors.title = "Title is required.";
+    }
+    if (!formData.category) {
+      errors.category = "Category is required.";
+    }
+    if (!formData.excerpt.trim()) {
+      errors.excerpt = "Excerpt is required.";
+    }
+    if (!formData.content.trim()) {
+      errors.content = "Content is required.";
+    }
+    if (!tagInput) {
+      errors.tagInput = "Tag is required.";
+    }
+
+    if (!formData.primaryImage) {
+      errors.primaryImage = "Featured image is required.";
+    } else if (formData.primaryImage.size && formData.primaryImage.size > 10 * 1024 * 1024) {
+      errors.primaryImage = "Image size must not exceed 10 MB.";
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return; // Stop submission if validation fails
+    }
+
     setSubmitting(true);
 
     try {
@@ -73,12 +112,28 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
     }
   };
 
-  // When file input changes:
+  // Modify file change handler to clear errors if fixed
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData((prev) => ({ ...prev, primaryImage: file }));
-      setFilePreview(URL.createObjectURL(file));
+      if (file.size > 10 * 1024 * 1024) {
+        setFormErrors((prev) => ({
+          ...prev,
+          primaryImage: "Image size must not exceed 10 MB.",
+        }));
+        setFormData((prev) => ({ ...prev, primaryImage: null }));
+        setFilePreview("");
+      } else {
+        setFormErrors((prev) => {
+          const { primaryImage, ...rest } = prev;
+          return rest;
+        });
+        setFormData((prev) => ({ ...prev, primaryImage: file }));
+        setFilePreview(URL.createObjectURL(file));
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, primaryImage: null }));
+      setFilePreview("");
     }
   };
 
@@ -121,8 +176,11 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
               placeholder="Enter post title"
               required
             />
+            {formErrors.title && (
+            <p className="text-red-600 text-sm mt-1">{formErrors.title}</p>
+          )}
           </div>
-
+          
           <div>
             <label
               htmlFor="category"
@@ -149,6 +207,9 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
                 </option>
               ))}
             </select>
+            {formErrors.category && (
+            <p className="text-red-600 text-sm mt-1">{formErrors.category}</p>
+          )}
           </div>
 
           <div className="md:col-span-2">
@@ -168,6 +229,9 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
               placeholder="Brief description of the post"
               required
             />
+            {formErrors.excerpt && (
+            <p className="text-red-600 text-sm mt-1">{formErrors.excerpt}</p>
+          )}
           </div>
 
           <div className="md:col-span-2">
@@ -183,13 +247,21 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
                 id="primaryImage"
                 name="primaryImage"
                 onChange={handleFileChange}
-                className="input w-full rounded-r-none"
+                className={`input w-full rounded-r-none ${
+                  formErrors.primaryImage ? "border-red-500" : ""
+                }`}
                 required
+                accept="image/*"
               />
               <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500">
                 <Image size={18} />
               </span>
             </div>
+            {formErrors.primaryImage && (
+              <p className="text-red-600 text-sm mt-1">
+                {formErrors.primaryImage}
+              </p>
+            )}
             {filePreview && (
               <img
                 src={filePreview}
@@ -216,6 +288,9 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
               placeholder="Write your post content here..."
               required
             />
+            {formErrors.content && (
+            <p className="text-red-600 text-sm mt-1">{formErrors.content}</p>
+          )}
           </div>
 
           <div>
@@ -237,6 +312,9 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
             <p className="text-xs text-gray-500 mt-1">
               Separate tags with commas
             </p>
+            {formErrors.tagInput && (
+            <p className="text-red-600 text-sm mt-1">{formErrors.tagInput}</p>
+          )}
           </div>
 
           <div className="flex items-center">

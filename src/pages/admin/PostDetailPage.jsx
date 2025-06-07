@@ -23,6 +23,7 @@ const PostDetailPage = () => {
         const res = await fetch(`${apiURL}/post/${id}`);
         if (!res.ok) throw new Error("Failed to fetch post");
         const data = await res.json();
+        console.log(data.tag)
         setPost(data);
       } catch (err) {
         console.error(err);
@@ -103,11 +104,21 @@ const PostDetailPage = () => {
             {post.content}
           </div>
 
-          {post.tag && (
-            <footer className="mt-12">
-              <h4 className="font-semibold mb-3 text-gray-800">Tags: <span className="inline-flex items-center bg-primary-100 text-primary-700 rounded-full px-4 py-1 text-sm font-medium"><Tag size={16} className="mr-1" /> {post.tag}</span></h4> 
-            </footer>
-          )}
+          {post.tag && post.tag.length > 0 && (
+  <footer className="mt-12">
+    <h4 className="font-semibold mb-3 text-gray-800">Tags:</h4>
+    <div className="flex flex-wrap gap-2">
+      {post.tag.map((tag, index) => (
+        <span
+          key={index}
+          className="inline-flex items-center bg-primary-100 text-primary-700 rounded-full px-4 py-1 text-sm font-medium"
+        >
+          <Tag size={16} className="mr-1" /> {tag}
+        </span>
+      ))}
+    </div>
+  </footer>
+)}
         </motion.article>
       </div>
     </section>

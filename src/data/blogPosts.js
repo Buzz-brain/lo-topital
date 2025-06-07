@@ -16,8 +16,8 @@ Your phone is not just for scrolling, it’s for selling!
     author: "Favour Onyekachi",
     authorImage: "https://res.cloudinary.com/df2q6gyuq/image/upload/v1747312331/IMG-20250513-WA0043_nrh3pb.jpg",
     date: "2025-05-12",
-    category: "Digital Marketing",
-    tags: ["digital marketing", "AI", "trends", "technology"],
+    category: "Social Media Marketing",
+    tags: ["social media marketing", "AI", "trends", "technology"],
     isTrending: true
   },
   {

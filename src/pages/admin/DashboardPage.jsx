@@ -49,8 +49,6 @@ const DashboardPage = () => {
 
       const response = await fetch(`${url}?${queryParams.toString()}`);
       const data = await response.json();
-      console.log(data);
-
       setPosts(data.posts || []);
     } catch (err) {
       console.error("Failed to fetch posts:", err);

@@ -17,6 +17,7 @@ const CategoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const { authFetch } = useAuth();
 
   const fetchCategories = async () => {
@@ -24,7 +25,6 @@ const CategoryPage = () => {
       const res = await fetch(`${apiURL}/category`);
       if (!res.ok) throw new Error("Failed to fetch categories");
       const data = await res.json();
-      console.log(data.length);
       setCategories(data);
     } catch (err) {
       console.error("Error fetching categories", err);
@@ -53,16 +53,22 @@ const CategoryPage = () => {
         body: JSON.stringify(form),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || "Failed to save category");
+        setError(data.message || "Failed to save category");
+        setSuccess("");
+        return;
       }
 
+      setSuccess(data.message || "Category created successfully");
+      setError("");
       setForm({ name: "", description: "" });
       setEditingId(null);
       fetchCategories();
     } catch (err) {
       setError(err.message);
+      setSuccess("");
     } finally {
       setSubmitting(false);
     }
@@ -76,14 +82,26 @@ const CategoryPage = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category?"))
       return;
+
     try {
       const res = await authFetch(`${apiURL}/category/${id}`, {
         method: "DELETE",
       });
-      if (!res.ok) throw new Error("Failed to delete category");
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Failed to delete category");
+        setSuccess("");
+        return;
+      }
+
+      setSuccess(data.message || "Category deleted successfully");
+      setError("");
       fetchCategories();
     } catch (err) {
-      alert(err.message);
+      setError(err.message || "Something went wrong");
+      setSuccess("");
     }
   };
 
@@ -159,6 +177,9 @@ const CategoryPage = () => {
       </div>
 
       {error && <p style={{ color: "red", marginBottom: "1rem" }}>{error}</p>}
+      {success && (
+        <p style={{ color: "green", marginBottom: "1rem" }}>{success}</p>
+      )}
 
       {loading ? (
         <div className="flex justify-center items-center min-h-[200px]">

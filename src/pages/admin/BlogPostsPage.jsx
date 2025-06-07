@@ -31,7 +31,6 @@ const DashboardPage = () => {
       const res = await fetch(`${apiURL}/category`);
       if (!res.ok) throw new Error("Failed to fetch categories");
       const data = await res.json();
-      console.log(data);
       setCategories(data);
     } catch (err) {
       console.error("Error fetching categories", err);
@@ -52,8 +51,8 @@ const DashboardPage = () => {
       queryParams.append("page", page);
 
       const response = await fetch(`${url}?${queryParams.toString()}`);
+      if (!response.ok) throw new Error("Failed to fetch posts");
       const data = await response.json();
-
       setPosts(data.posts || []);
     } catch (err) {
       console.error("Failed to fetch posts:", err);
@@ -107,17 +106,21 @@ const DashboardPage = () => {
         });
         // if (!res.ok) throw new Error("Failed to update post");
         const updatedPost = await res.json();
-        toast.success(updatedPost.message);
-
-        setPosts(
-          posts.map((post) =>
-            post.id === editingPost._id
-              ? { ...post, ...formData, ...updatedPost.formData }
-              : post
-          )
-        );
-        fetchPosts();
-        setEditingPost(null);
+        if (!res.ok) {
+          toast.error(updatedPost.message || "Failed to update post")
+        } else {
+          toast.success(updatedPost.message || "Post updated successfully");
+          
+          setPosts(
+            posts.map((post) =>
+              post.id === editingPost._id
+            ? { ...post, ...formData, ...updatedPost.formData }
+            : post
+            )
+          );
+          fetchPosts();
+          setEditingPost(null);
+        }
       } else {
         // Add new post
         const res = await authFetch(`${apiURL}/post`, {
@@ -127,9 +130,9 @@ const DashboardPage = () => {
         });
         const data = await res.json();
         if (!res.ok) {
-          toast.error(data.message);
+          toast.error(data.message || "Failed to update post");
         } else {
-          toast.success(data.message);
+          toast.success(data.message || "Post updated successfully");
           // After creation, re-fetch posts or append new post:
           fetchPosts();
         }
@@ -148,11 +151,14 @@ const DashboardPage = () => {
         const res = await authFetch(`${apiURL}/post/${postId}`, {
           method: "DELETE",
         });
-        if (!res.ok) throw new Error("Failed to delete post");
         const data = await res.json();
-        setPosts(posts.filter((post) => post.id !== postId));
-        toast.success(data.message);
-        fetchPosts();
+        if (!res.ok) {
+          toast.error(data.message || "Failed to delete post");
+        } else {
+          setPosts(posts.filter((post) => post.id !== postId));
+          toast.success(data.message);
+          fetchPosts();
+        }
       } catch (error) {
         console.error(error);
         toast.error(error.message);
