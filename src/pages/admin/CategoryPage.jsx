@@ -5,8 +5,10 @@ import {
   Pencil,
   Trash2,
   Loader,
+  Loader2,
 } from "lucide-react";
 const apiURL = import.meta.env.VITE_API_URL;
+import { useAuth } from "../../contexts/AuthContext";
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -15,13 +17,14 @@ const CategoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const { authFetch } = useAuth();
 
   const fetchCategories = async () => {
     try {
       const res = await fetch(`${apiURL}/category`);
       if (!res.ok) throw new Error("Failed to fetch categories");
       const data = await res.json();
-      console.log(data.length)
+      console.log(data.length);
       setCategories(data);
     } catch (err) {
       console.error("Error fetching categories", err);
@@ -40,12 +43,13 @@ const CategoryPage = () => {
 
     try {
       const method = editingId ? "PUT" : "POST";
-      const url = editingId ? `${apiURL}/category/${editingId}` : `${apiURL}/category`;
+      const url = editingId
+        ? `${apiURL}/category/${editingId}`
+        : `${apiURL}/category`;
 
-      const res = await fetch(url, {
+      const res = await authFetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(form),
       });
 
@@ -70,9 +74,12 @@ const CategoryPage = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this category?")) return;
+    if (!window.confirm("Are you sure you want to delete this category?"))
+      return;
     try {
-      const res = await fetch(`${apiURL}/category/${id}`, { method: "DELETE", credentials: "include", }, );
+      const res = await authFetch(`${apiURL}/category/${id}`, {
+        method: "DELETE",
+      });
       if (!res.ok) throw new Error("Failed to delete category");
       fetchCategories();
     } catch (err) {
@@ -82,9 +89,18 @@ const CategoryPage = () => {
 
   return (
     <div style={{ padding: "1.5rem" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          marginBottom: "1.5rem",
+        }}
+      >
         <LayoutGrid size={24} />
-        <h1 style={{ fontSize: "1.75rem", fontWeight: "700" }}>Manage Categories</h1>
+        <h1 style={{ fontSize: "1.75rem", fontWeight: "700" }}>
+          Manage Categories
+        </h1>
       </div>
 
       <div
@@ -131,7 +147,7 @@ const CategoryPage = () => {
           }}
         >
           {submitting ? (
-            <Loader className="animate-spin" size={16} />
+            <Loader2 className="animate-spin" size={16} />
           ) : editingId ? (
             "Update"
           ) : (
@@ -142,9 +158,7 @@ const CategoryPage = () => {
         </button>
       </div>
 
-      {error && (
-        <p style={{ color: "red", marginBottom: "1rem" }}>{error}</p>
-      )}
+      {error && <p style={{ color: "red", marginBottom: "1rem" }}>{error}</p>}
 
       {loading ? (
         <div className="flex justify-center items-center min-h-[200px]">
@@ -173,8 +187,17 @@ const CategoryPage = () => {
                 justifyContent: "space-between",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                <h2 style={{ fontWeight: "600", fontSize: "1.125rem" }}>{category.name}</h2>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                <h2 style={{ fontWeight: "600", fontSize: "1.125rem" }}>
+                  {category.name}
+                </h2>
                 <div style={{ display: "flex", gap: "0.5rem" }}>
                   <Pencil
                     size={18}

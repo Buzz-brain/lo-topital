@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { X, Save, Image } from "lucide-react";
+import { X, Save, Image, Loader2 } from "lucide-react";
 
 const PostForm = ({ post, onSubmit, onCancel, categories }) => {
   const [formData, setFormData] = useState({
@@ -8,12 +8,32 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
     excerpt: post?.excerpt || "",
     content: post?.content || "",
     primaryImage: post?.primaryImage || "",
-    category: post?.category || "",
-    tag: Array.isArray(post?.tag) ? post.tag : post?.tag?.split(",").map(t => t.trim()) || [],
+    category: post?.category._id || "",
+    tag: Array.isArray(post?.tag)
+      ? post.tag
+      : post?.tag?.split(",").map((t) => t.trim()) || [],
     isTrending: post?.isTrending || false,
   });
-
   const [tagInput, setTagInput] = useState(formData.tag.join(", "));
+  const [filePreview, setFilePreview] = useState(post?.primaryImage || "");
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    setFormData({
+      title: post?.title || "",
+      excerpt: post?.excerpt || "",
+      content: post?.content || "",
+      primaryImage: post?.primaryImage || "",
+      category: post?.category?._id || "",
+      tag: Array.isArray(post?.tag)
+        ? post.tag
+        : post?.tag?.split(",").map((t) => t.trim()) || [],
+      isTrending: post?.isTrending || false,
+    });
+    setTagInput(
+      Array.isArray(post?.tag) ? post.tag.join(", ") : post?.tag || ""
+    );
+  }, [post]);
 
   // Handle select change
   const handleCategoryChange = (e) => {
@@ -35,13 +55,31 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
   };
 
   // Submit handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
 
-    // Convert tagInput string to array on submission
-    const tags = tagInput.split(",").map((t) => t.trim()).filter(Boolean);
+    try {
+      const tags = tagInput
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
 
-    onSubmit({ ...formData, tag: tags });
+      await onSubmit({ ...formData, tag: tags });
+    } catch (err) {
+      console.error("Error submitting form", err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // When file input changes:
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData((prev) => ({ ...prev, primaryImage: file }));
+      setFilePreview(URL.createObjectURL(file));
+    }
   };
 
   return (
@@ -64,7 +102,7 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label
@@ -97,8 +135,14 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
               value={formData.category}
               onChange={handleCategoryChange}
               className="input w-full appearance-none"
+              required
+              disabled={!categories.length}
             >
-              <option value="">All Categories</option>
+              <option value="" disabled>
+                {categories.length
+                  ? "Select a category"
+                  : "Loading categories..."}
+              </option>
               {categories.map((category) => (
                 <option key={category._id} value={category._id}>
                   {category.name}
@@ -131,23 +175,28 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
               htmlFor="primaryImage"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Featured Image URL *
+              Featured Image * <i>(Image size should not exceed 10 MB)</i>
             </label>
             <div className="flex">
               <input
-                type="url"
+                type="file"
                 id="primaryImage"
                 name="primaryImage"
-                value={formData.primaryImage}
-                onChange={handleInputChange}
+                onChange={handleFileChange}
                 className="input w-full rounded-r-none"
-                placeholder="https://example.com/image.jpg"
                 required
               />
               <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500">
                 <Image size={18} />
               </span>
             </div>
+            {filePreview && (
+              <img
+                src={filePreview}
+                alt="Featured preview"
+                className="mt-2 w-full max-h-60 object-cover rounded"
+              />
+            )}
           </div>
 
           <div className="md:col-span-2">
@@ -225,9 +274,21 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
           <button type="button" onClick={onCancel} className="btn btn-outline">
             Cancel
           </button>
-          <button type="submit" className="btn btn-primary">
-            <Save className="mr-2 h-4 w-4" />
-            {post ? "Update Post" : "Publish Post"}
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={submitting}
+            style={{ cursor: submitting ? "not-allowed" : "pointer" }}
+          >
+            {submitting ? (
+              <Loader2 className="animate-spin" size={16} />
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" />
+
+                {post ? "Update Post" : "Publish Post"}
+              </>
+            )}
           </button>
         </div>
       </form>

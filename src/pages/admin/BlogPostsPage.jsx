@@ -1,17 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-  Plus,
-  Edit,
-  Trash2,
-  Filter,
-  Search,
-  Loader,
-} from "lucide-react";
+import { Plus, Edit, Trash2, Filter, Search, Loader } from "lucide-react";
 import PostForm from "../../components/admin/PostForm";
 import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 const apiURL = import.meta.env.VITE_API_URL;
 
 const DashboardPage = () => {
@@ -22,7 +16,10 @@ const DashboardPage = () => {
   const [isAddingPost, setIsAddingPost] = useState(false);
   const [editingPost, setEditingPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { authFetch } = useAuth();
   const navigate = useNavigate();
+  const cloudName = "df2q6gyuq";
+  const uploadPreset = "upload_preset";
 
   useEffect(() => {
     fetchCategories();
@@ -34,7 +31,7 @@ const DashboardPage = () => {
       const res = await fetch(`${apiURL}/category`);
       if (!res.ok) throw new Error("Failed to fetch categories");
       const data = await res.json();
-      console.log(data)
+      console.log(data);
       setCategories(data);
     } catch (err) {
       console.error("Error fetching categories", err);
@@ -68,13 +65,45 @@ const DashboardPage = () => {
   // Handle form submission for new or edited post
   const handlePostSubmit = async (formData) => {
     try {
+      let primaryImageUrl = formData.primaryImage;
+
+      // If primaryImage is a File (new upload), upload to Cloudinary
+      if (formData.primaryImage instanceof File) {
+        const imageData = new FormData();
+        imageData.append("file", formData.primaryImage);
+        imageData.append("upload_preset", uploadPreset);
+
+        const uploadRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          {
+            method: "POST",
+            body: imageData,
+          }
+        );
+
+        const uploadResult = await uploadRes.json();
+
+        if (!uploadRes.ok) {
+          throw new Error(
+            uploadResult.error?.message || "Cloudinary upload failed"
+          );
+        }
+
+        primaryImageUrl = uploadResult.secure_url;
+      }
+
+      // Now send the data to backend with primaryImageUrl
+      const payload = {
+        ...formData,
+        primaryImage: primaryImageUrl, // replace file with URL
+      };
+
       if (editingPost) {
         // Update existing post
-        const res = await fetch(`${apiURL}/post/${editingPost._id}`, {
+        const res = await authFetch(`${apiURL}/post/${editingPost._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-          credentials: "include",
+          body: JSON.stringify(payload),
         });
         // if (!res.ok) throw new Error("Failed to update post");
         const updatedPost = await res.json();
@@ -87,14 +116,14 @@ const DashboardPage = () => {
               : post
           )
         );
+        fetchPosts();
         setEditingPost(null);
       } else {
         // Add new post
-        const res = await fetch(`${apiURL}/post`, {
+        const res = await authFetch(`${apiURL}/post`, {
           method: "POST",
-          credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -116,14 +145,14 @@ const DashboardPage = () => {
   const handleDeletePost = async (postId) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
-        const res = await fetch(`${apiURL}/post/${postId}`, {
+        const res = await authFetch(`${apiURL}/post/${postId}`, {
           method: "DELETE",
-          credentials: "include",
         });
         if (!res.ok) throw new Error("Failed to delete post");
         const data = await res.json();
         setPosts(posts.filter((post) => post.id !== postId));
         toast.success(data.message);
+        fetchPosts();
       } catch (error) {
         console.error(error);
         toast.error(error.message);
@@ -131,11 +160,8 @@ const DashboardPage = () => {
     }
   };
 
-
-
   return (
     <div className="py-6">
-
       <ToastContainer />
 
       {/* Blog Posts Section */}
@@ -188,7 +214,6 @@ const DashboardPage = () => {
             />
           </div>
         </div>
-
         Post Form
         {(isAddingPost || editingPost) && (
           <PostForm
@@ -221,15 +246,16 @@ const DashboardPage = () => {
                       <Loader
                         className="animate-spin text-gray-500 px-2"
                         size={40}
-                      /> Fetching posts
+                      />{" "}
+                      Fetching posts
                     </div>
                   </td>
                 </tr>
               ) : (
                 <>
                   {posts.map((post) => (
-                    <tr 
-                     key={post._id}
+                    <tr
+                      key={post._id}
                       className="border-b hover:bg-gray-50 cursor-pointer"
                       onClick={() => navigate(`/admin/post/${post._id}`)}
                     >
@@ -263,9 +289,10 @@ const DashboardPage = () => {
                         </span>
                       </td>
                       <td className="py-3 px-4">
-                        <div className="flex items-center justify-center space-x-2"
+                        <div
+                          className="flex items-center justify-center space-x-2"
                           onClick={(e) => e.stopPropagation()}
-                          >
+                        >
                           <button
                             className="p-1 text-blue-600 hover:bg-blue-50 rounded"
                             onClick={(e) => {
@@ -280,7 +307,7 @@ const DashboardPage = () => {
                             className="p-1 text-red-600 hover:bg-red-50 rounded"
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleDeletePost(post.id)
+                              handleDeletePost(post._id);
                             }}
                           >
                             <Trash2 size={18} />
@@ -306,7 +333,6 @@ const DashboardPage = () => {
             </tbody>
           </table>
         </div>
-        
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect } from "react";
 const apiURL = import.meta.env.VITE_API_URL;
 
 // Create Auth Context
@@ -8,32 +8,98 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Refresh Access Token
+  const refreshToken = async () => {
+    try {
+      const response = await fetch(`${apiURL}/refresh-token`, {
+        method: "POST",
+        credentials: "include", // this is key to send the refresh token cookie
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.accessToken; // or whatever token your server returns
+      } else {
+        throw new Error("Unable to refresh token");
+      }
+    } catch (error) {
+      console.error("Refresh token error:", error.message);
+      return null;
+    }
+  };
+
+  // Logout function
+  const logout = async () => {
+    try {
+      const response = await authFetch(`${apiURL}/admin-logout`, {
+        method: "POST",
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setCurrentUser(null);
+        // Logout successful, handle the response
+        return data;
+      } else {
+        // Logout failed, throw an error
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // Wrapper for authenticated fetch requests
+  const authFetch = async (url, options = {}) => {
+    const res = await fetch(url, {
+      ...options,
+      credentials: "include",
+    });
+
+    // If access token expired
+    if (res.status === 401) {
+      const newToken = await refreshToken();
+
+      if (newToken) {
+        const retryRes = await fetch(url, {
+          ...options,
+          credentials: "include",
+        });
+        return retryRes;
+      } else {
+        // If token refresh fails, logout
+        await logout();
+        return res;
+      }
+    }
+
+    return res;
+  };
+
+  const fetchUserDetails = async () => {
+    try {
+      const res = await authFetch(`${apiURL}/get-user-details`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setCurrentUser(data);
+      } else {
+        setCurrentUser(null);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      setCurrentUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Check if user is logged in
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const res = await fetch(`${apiURL}/get-user-details`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          setCurrentUser(data);
-        } else {
-          setCurrentUser(null);
-        }
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-        setCurrentUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserDetails();
   }, []);
 
@@ -52,6 +118,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
+        await fetchUserDetails();
         // Login successful, handle the response
         return data;
       } else {
@@ -85,26 +152,6 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error(error);
-      throw error;
-    }
-  };
-
-  // Logout function
-  const logout = async () => {
-    try {
-      const response = await fetch(`${apiURL}/admin-logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-      const data = await response.json();
-      if (response.ok) {
-        // Logout successful, handle the response
-        return data;
-      } else {
-        // Logout failed, throw an error
-        throw new Error(data.message);
-      }
-    } catch (error) {
       throw error;
     }
   };
@@ -159,6 +206,8 @@ export const AuthProvider = ({ children }) => {
     forgotPassword,
     resetPassword,
     loading,
+    authFetch,
+    refreshToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

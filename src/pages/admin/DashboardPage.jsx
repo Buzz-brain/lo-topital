@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import {
-  BarChart4,
-  Users,
-  Calendar,
-  TrendingUp,
-  Folder,
-} from "lucide-react";
+import { BarChart4, Users, Calendar, TrendingUp, Folder } from "lucide-react";
 import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BlogPostsPage from './BlogPostsPage';
+import BlogPostsPage from "./BlogPostsPage";
 import { useNavigate } from "react-router-dom";
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -62,72 +56,6 @@ const DashboardPage = () => {
       console.error("Failed to fetch posts:", err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Handle form submission for new or edited post
-  const handlePostSubmit = async (formData) => {
-    try {
-      if (editingPost) {
-        // Update existing post
-        const res = await fetch(`${apiURL}/post/${editingPost.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-          credentials: "include",
-        });
-        // if (!res.ok) throw new Error("Failed to update post");
-        const updatedPost = await res.json();
-        toast.success(updatedPost.message);
-
-        setPosts(
-          posts.map((post) =>
-            post.id === editingPost.id
-              ? { ...post, ...formData, ...updatedPost.formData }
-              : post
-          )
-        );
-        setEditingPost(null);
-      } else {
-        // Add new post
-        const res = await fetch(`${apiURL}/post`, {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          toast.error(data.message);
-        } else {
-          toast.success(data.message);
-          // After creation, re-fetch posts or append new post:
-          fetchPosts();
-        }
-      }
-      setIsAddingPost(false);
-    } catch (error) {
-      console.error(error);
-      toast.error(error.message);
-    }
-  };
-
-  // Handle post deletion
-  const handleDeletePost = async (postId) => {
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      try {
-        const res = await fetch(`${apiURL}/post/${postId}`, {
-          method: "DELETE",
-          credentials: "include",
-        });
-        if (!res.ok) throw new Error("Failed to delete post");
-        const data = await res.json();
-        setPosts(posts.filter((post) => post.id !== postId));
-        toast.success(data.message);
-      } catch (error) {
-        console.error(error);
-        toast.error(error.message);
-      }
     }
   };
 
