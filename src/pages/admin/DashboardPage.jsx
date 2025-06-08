@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BarChart4, Users, Calendar, TrendingUp, Folder } from "lucide-react";
 import { format } from "date-fns";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BlogPostsPage from "./BlogPostsPage";
-import { useNavigate } from "react-router-dom";
 const apiURL = import.meta.env.VITE_API_URL;
 
 const DashboardPage = () => {
@@ -13,10 +12,6 @@ const DashboardPage = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [isAddingPost, setIsAddingPost] = useState(false);
-  const [editingPost, setEditingPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCategories();
@@ -98,8 +93,6 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
-
-      <ToastContainer />
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

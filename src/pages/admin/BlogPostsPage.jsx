@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 const apiURL = import.meta.env.VITE_API_URL;
+const cloudName = import.meta.env.VITE_CLOUD_NAME;
+const uploadPreset = import.meta.env.VITE_UPLOAD_PRESET;
 
 const DashboardPage = () => {
   const [posts, setPosts] = useState([]);
@@ -18,8 +20,6 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const { authFetch } = useAuth();
   const navigate = useNavigate();
-  const cloudName = "df2q6gyuq";
-  const uploadPreset = "upload_preset";
 
   useEffect(() => {
     fetchCategories();
@@ -106,15 +106,15 @@ const DashboardPage = () => {
         // if (!res.ok) throw new Error("Failed to update post");
         const updatedPost = await res.json();
         if (!res.ok) {
-          toast.error(updatedPost.message || "Failed to update post")
+          toast.error(updatedPost.message || "Failed to update post");
         } else {
           toast.success(updatedPost.message || "Post updated successfully");
-          
+
           setPosts(
             posts.map((post) =>
               post.id === editingPost._id
-            ? { ...post, ...formData, ...updatedPost.formData }
-            : post
+                ? { ...post, ...formData, ...updatedPost.formData }
+                : post
             )
           );
           fetchPosts();
