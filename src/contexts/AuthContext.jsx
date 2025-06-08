@@ -100,8 +100,15 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is logged in
   useEffect(() => {
+  const publicPaths = ["/admin/login", "/admin/signup", "/admin/forgot-password", "/admin/reset-password"];
+  const currentPath = window.location.pathname;
+
+  if (!publicPaths.includes(currentPath)) {
     fetchUserDetails();
-  }, []);
+  } else {
+    setLoading(false); // manually stop loading if not fetching
+  }
+}, []);
 
   // Login function
   const login = async (email, password) => {
