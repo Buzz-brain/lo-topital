@@ -27,6 +27,7 @@ const BlogPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const debouncedSearchTerm = useDebounce(searchTerm, 400);
 
   // Animation variants
   const fadeIn = {
@@ -45,36 +46,47 @@ const BlogPage = () => {
     },
   };
 
+  function useDebounce(value, delay = 500) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+      const timer = setTimeout(() => setDebouncedValue(value), delay);
+      return () => clearTimeout(timer);
+    }, [value, delay]);
+    return debouncedValue;
+  }
+
   // Fetch posts from backend API with search and category filter
   useEffect(() => {
     const fetchPosts = async (page = 1) => {
       setLoading(true);
       setError(null);
       try {
-        // Build query params
         const queryParams = new URLSearchParams();
+        const url = `${apiURL}/posts/search-filter`;
 
-        let url = `${apiURL}/posts/search-filter`;
-        queryParams.append("q", searchTerm);
+        queryParams.append("q", debouncedSearchTerm);
         queryParams.append("category", selectedCategory);
         queryParams.append("page", page);
 
         const response = await fetch(`${url}?${queryParams.toString()}`);
         const data = await response.json();
+
+        if (!response.ok) throw new Error(data.message || "Fetch failed");
+
         setPosts(data.posts || []);
 
-        // Filter trending posts from the fetched posts
-        const trending = data.posts.filter((post) => post.isTrending);
+        const trending = (data.posts || []).filter((post) => post.isTrending);
         setTrendingPosts(trending);
       } catch (err) {
         setError(err.message || "Something went wrong");
+        setPosts([]); // Ensure posts are cleared on error
       } finally {
         setLoading(false);
       }
     };
 
     fetchPosts();
-  }, [searchTerm, selectedCategory]);
+  }, [debouncedSearchTerm, selectedCategory]);
 
   useEffect(() => {
     const fetchCategories = async () => {
