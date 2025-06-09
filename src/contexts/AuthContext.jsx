@@ -1,16 +1,24 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 const apiURL = import.meta.env.VITE_API_URL;
 
-// Create Auth Context
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const isHintLoggedIn = localStorage.getItem("isLoggedIn");
+
+  const hasFetchedOnce = useRef(false);
+  const location = useLocation();
+
+  // --- Lock to prevent multiple refresh calls ---
+  let isRefreshing = false;
 
   // Refresh Access Token
   const refreshToken = async () => {
+    if (isRefreshing) return null;
+    isRefreshing = true;
+
     try {
       const response = await fetch(`${apiURL}/refresh-token`, {
         method: "POST",
@@ -21,34 +29,52 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json();
         return data.accessToken;
       } else {
-        throw new Error("Unable to refresh token");
+        return null;
       }
-    } catch (error) {
-      console.error("Refresh token error:", error.message);
+    } catch (err) {
+      console.error("Refresh token error:", err.message);
       return null;
+    } finally {
+      isRefreshing = false;
     }
   };
 
   // Logout function
+  // const logout = async () => {
+  //   try {
+  //     const response = await fetch(`${apiURL}/admin-logout`, {
+  //       method: "POST",
+  //       credentials: "include",
+  //     });
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       setCurrentUser(null)
+  //       // Logout successful, handle the response
+  //       return data;
+  //     } else {
+  //       // Logout failed, throw an error
+  //       throw new Error(data.message);
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   } 
+  // };
   const logout = async () => {
-    try {
-      const response = await authFetch(`${apiURL}/admin-logout`, {
-        method: "POST",
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setCurrentUser(null);
-        // Logout successful, handle the response
-        localStorage.removeItem("isLoggedIn");
-        return data;
-      } else {
-        // Logout failed, throw an error
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      throw error;
+  try {
+    const response = await fetch(`${apiURL}/admin-logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message);
     }
-  };
+    // Just return, don't set user here
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
   // Wrapper for authenticated fetch requests
   const authFetch = async (url, options = {}) => {
@@ -57,57 +83,61 @@ export const AuthProvider = ({ children }) => {
       credentials: "include",
     });
 
-    // If access token expired
     if (res.status === 401) {
       const newToken = await refreshToken();
 
       if (newToken) {
-        const retryRes = await fetch(url, {
+        // Retry with new access token
+        return await fetch(url, {
           ...options,
           credentials: "include",
+          headers: {
+            ...options.headers,
+            Authorization: `Bearer ${newToken}`,
+          },
         });
-        return retryRes;
       } else {
-        // If token refresh fails, logout
-        await logout();
+        setCurrentUser(null);
         return res;
       }
     }
-
     return res;
   };
 
-  // Fetch Current User
   const fetchUserDetails = async () => {
     try {
-      const res = await authFetch(`${apiURL}/get-user-details`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await authFetch(`${apiURL}/get-user-details`);
 
-      if (res.ok) {
-        const data = await res.json();
-        setCurrentUser(data);
+      if (response.ok) {
+        const user = await response.json();
+        setCurrentUser(user);
       } else {
         setCurrentUser(null);
       }
+    } catch (err) {
+      console.error("Failed to fetch user:", err.message);
+      setCurrentUser(null);
+    } 
+  };
+
+  useEffect(() => {
+  const initializeAuth = async () => {
+    try {
+      setLoading(true);
+      await fetchUserDetails();
     } catch (error) {
-      console.error("Error fetching user details:", error);
       setCurrentUser(null);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (isHintLoggedIn) {
-      fetchUserDetails(); // as above
-    } else {
-      setLoading(false);
-    }
-  }, []);
+  if (!hasFetchedOnce.current) {
+    hasFetchedOnce.current = true;
+    initializeAuth();
+  }
+}, []);
+
 
   // Login function
   const login = async (email, password) => {
@@ -124,7 +154,6 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("isLoggedIn", "true");
         await fetchUserDetails();
         // Login successful, handle the response
         return data;
@@ -207,6 +236,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     currentUser,
+    setCurrentUser,
     login,
     signup,
     logout,
@@ -217,9 +247,11 @@ export const AuthProvider = ({ children }) => {
     refreshToken,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

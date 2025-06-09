@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LogIn, AlertCircle, CheckCircle } from 'lucide-react';
@@ -9,10 +9,16 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   
-  const { login } = useAuth();
+  const { currentUser, loading, login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && currentUser) {
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [currentUser, loading, navigate]);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +35,7 @@ const LoginPage = () => {
     
     try {
       setError('');
-      setLoading(true);
+      setSubmitting(true);
       
       await login(email, password)
       .then((data) => {
@@ -55,7 +61,7 @@ const LoginPage = () => {
       // Login failed, display the error message
       setError(error.message);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
   
@@ -131,10 +137,10 @@ const LoginPage = () => {
             
             <button
               type="submit"
-              disabled={loading}
+              disabled={submitting}
               className="btn btn-primary w-full"
             >
-              {loading ? (
+              {submitting ? (
                 <span className="flex items-center justify-center">
                   <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

@@ -7,29 +7,26 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AdminHeader = () => {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, setCurrentUser, logout } = useAuth();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      await logout()
-        .then((data) => {
-          // Handle successful registration
-          toast.success("Logging out...");
-          setTimeout(() => {
-            navigate("/admin/login");
-          }, 5000);
-        })
-        .catch((error) => {
-          // Handle logout error
-          console.error(error);
-          toast.error(error.message);
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
+const handleLogout = async () => {
+  try {
+    await logout();
+    toast.success("Logging out...");
+    
+    setTimeout(() => {
+      setCurrentUser(null);
+      navigate("/admin/login", { replace: true });
+    }, 2000);
+  } catch (error) {
+    console.error(error);
+    toast.error(error.message || "Logout failed");
+  }
+};
+
 
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-3">
