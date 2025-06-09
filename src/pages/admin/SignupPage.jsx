@@ -60,7 +60,6 @@ const SignupPage = () => {
       await signup(formData.name, formData.email, formData.password, formData.confirmPassword )
       .then((data) => {
         // Handle successful registration
-        console.log(data);
         setSuccess('Registration successful! Please check your email inbox to verify your account.');
       })
       .catch((error) => {

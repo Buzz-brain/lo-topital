@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BarChart4, Users, Calendar, TrendingUp, Folder } from "lucide-react";
 import { format } from "date-fns";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BlogPostsPage from "./BlogPostsPage";
 const apiURL = import.meta.env.VITE_API_URL;
@@ -12,6 +11,7 @@ const DashboardPage = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchCategories();

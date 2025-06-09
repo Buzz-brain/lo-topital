@@ -42,7 +42,6 @@ const ResetPasswordPage = () => {
       await resetPassword(token, password)
       .then((data) => {
         // Handle successful password reset
-        console.log(data);
         setSuccess('Password reset successful');
         setTimeout(() => {
           navigate('/admin/login');

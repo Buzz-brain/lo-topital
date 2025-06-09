@@ -34,7 +34,6 @@ const LoginPage = () => {
       await login(email, password)
       .then((data) => {
         // Handle successful registration
-        console.log(data);
         setSuccess('Login successful! Redirecting...');
         setTimeout(() => {
           navigate('/admin/dashboard');

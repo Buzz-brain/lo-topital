@@ -23,7 +23,6 @@ const PostDetailPage = () => {
         const res = await fetch(`${apiURL}/post/${id}`);
         if (!res.ok) throw new Error("Failed to fetch post");
         const data = await res.json();
-        console.log(data.tag)
         setPost(data);
       } catch (err) {
         console.error(err);

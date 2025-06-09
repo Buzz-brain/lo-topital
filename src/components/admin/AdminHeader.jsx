@@ -16,7 +16,6 @@ const AdminHeader = () => {
       await logout()
         .then((data) => {
           // Handle successful registration
-          console.log(data);
           toast.success("Logging out...");
           setTimeout(() => {
             navigate("/admin/login");

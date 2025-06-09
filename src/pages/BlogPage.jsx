@@ -93,7 +93,6 @@ const BlogPage = () => {
       try {
         const response = await fetch(`${apiURL}/category`);
         const data = await response.json();
-        console.log(data);
         setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);

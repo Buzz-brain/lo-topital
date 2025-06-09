@@ -7,18 +7,19 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const isHintLoggedIn = localStorage.getItem("isLoggedIn");
 
   // Refresh Access Token
   const refreshToken = async () => {
     try {
       const response = await fetch(`${apiURL}/refresh-token`, {
         method: "POST",
-        credentials: "include", // this is key to send the refresh token cookie
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
-        return data.accessToken; // or whatever token your server returns
+        return data.accessToken;
       } else {
         throw new Error("Unable to refresh token");
       }
@@ -38,6 +39,7 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         setCurrentUser(null);
         // Logout successful, handle the response
+        localStorage.removeItem("isLoggedIn");
         return data;
       } else {
         // Logout failed, throw an error
@@ -75,6 +77,7 @@ export const AuthProvider = ({ children }) => {
     return res;
   };
 
+  // Fetch Current User
   const fetchUserDetails = async () => {
     try {
       const res = await authFetch(`${apiURL}/get-user-details`, {
@@ -98,17 +101,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Check if user is logged in
   useEffect(() => {
-  const publicPaths = ["/admin/login", "/admin/signup", "/admin/forgot-password", "/admin/reset-password"];
-  const currentPath = window.location.pathname;
-
-  if (!publicPaths.includes(currentPath)) {
-    fetchUserDetails();
-  } else {
-    setLoading(false); // manually stop loading if not fetching
-  }
-}, []);
+    if (isHintLoggedIn) {
+      fetchUserDetails(); // as above
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   // Login function
   const login = async (email, password) => {
@@ -125,6 +124,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("isLoggedIn", "true");
         await fetchUserDetails();
         // Login successful, handle the response
         return data;

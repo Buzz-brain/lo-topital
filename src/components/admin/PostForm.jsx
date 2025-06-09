@@ -61,8 +61,6 @@ const PostForm = ({ post, onSubmit, onCancel, categories }) => {
   const validateForm = () => {
     const errors = {};
 
-      console.log("tags", tagInput)
-
     if (!formData.title.trim()) {
       errors.title = "Title is required.";
     }

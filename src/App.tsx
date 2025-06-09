@@ -18,7 +18,7 @@ import CategoryPage from './pages/admin/CategoryPage';
 import PostDetailPage from './pages/admin/PostDetailPage';
 import BlogPostsPage from './pages/admin/BlogPostsPage';
 import MessagePage from './pages/admin/MessagePage';
-// import ProtectedRoute from './components/auth/ProtectedRoute';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
@@ -46,8 +46,7 @@ function App() {
             <Route path="resend-verification" element={<ResendVerificationPage />} />
             
             {/* Protected Admin Routes */}
-            <Route>
-            {/* <Route element={<ProtectedRoute />}> */}
+            <Route element={<ProtectedRoute />}>
               <Route element={<AdminLayout />}>
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="category" element={<CategoryPage />} />

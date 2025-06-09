@@ -23,7 +23,6 @@ const ForgotPasswordPage = () => {
       await forgotPassword(email)
       .then((data) => {
         // Handle successful registration
-        console.log(data);
         setMessage('Check your email for further instructions');
       })
       .catch((error) => {

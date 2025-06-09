@@ -54,7 +54,6 @@ const ResendVerificationPage = () => {
         credentials: "include",
       });
       const data = await response.json();
-      console.log(data)
       if (response.ok) {
         setMessage(data.message);
         if (data.cooldown) {

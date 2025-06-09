@@ -14,7 +14,7 @@ const ProtectedRoute = () => {
   }
 
   // Redirect to login if not authenticated
-  return currentUser ? <Outlet /> : <Navigate to="/admin/login" />;
+  return currentUser ? <Outlet /> : <Navigate to="/admin/login" replace />;
 };
 
 export default ProtectedRoute;
