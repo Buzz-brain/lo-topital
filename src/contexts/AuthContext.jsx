@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(null);
       }
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message, apiURL)
       console.error("Failed to fetch user:", err.message);
       setCurrentUser(null);
     } 
