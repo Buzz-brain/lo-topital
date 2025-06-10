@@ -69,8 +69,8 @@ const handleLogout = async () => {
                   className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
                 >
                   <div className="px-4 py-2 border-b border-gray-100">
-                    <p className="text-sm font-medium">{currentUser?.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-sm font-medium break-words whitespace-normal">{currentUser?.name}</p>
+                    <p className="text-xs text-gray-500 break-words whitespace-normal">
                       {currentUser?.email}
                     </p>
                   </div>

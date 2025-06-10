@@ -98,8 +98,8 @@ const AdminSidebar = () => {
               exit={{ opacity: 0 }}
               className="ml-2"
             >
-              <p className="text-sm font-medium">{currentUser?.name}</p>
-              <p className="text-xs text-gray-400">{ currentUser?.email }</p>
+              <p className="text-sm font-medium break-words whitespace-normal">{currentUser?.name}</p>
+              <p className="text-xs text-gray-400 break-words whitespace-normal">{ currentUser?.email }</p>
             </motion.div>
           )}
         </div>
