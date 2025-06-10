@@ -39,26 +39,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout function
-  // const logout = async () => {
-  //   try {
-  //     const response = await fetch(`${apiURL}/admin-logout`, {
-  //       method: "POST",
-  //       credentials: "include",
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setCurrentUser(null)
-  //       // Logout successful, handle the response
-  //       return data;
-  //     } else {
-  //       // Logout failed, throw an error
-  //       throw new Error(data.message);
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   } 
-  // };
   const logout = async () => {
   try {
     const response = await fetch(`${apiURL}/admin-logout`, {

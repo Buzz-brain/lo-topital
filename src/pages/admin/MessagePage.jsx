@@ -29,7 +29,7 @@ const MessagePage = () => {
   }, []);
 
   return (
-    <div className="p-6 min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="p-5 min-h-screen bg-gray-100 dark:bg-gray-900">
       <motion.h1
         className="text-3xl font-bold text-gray-800 dark:text-white mb-6"
         initial={{ opacity: 0, y: -10 }}
@@ -39,7 +39,7 @@ const MessagePage = () => {
         Contact Messages
       </motion.h1>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-8 min-w-[1024px]">
         {messages.map((msg, index) => (
           <motion.div
             key={msg._id}

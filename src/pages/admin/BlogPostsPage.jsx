@@ -166,177 +166,179 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="py-6">
-      <ToastContainer />
+    <div className="px-4 overflow-x-auto">
+      <div className="min-w-[1024px] py-6">
+        <ToastContainer />
 
-      {/* Blog Posts Section */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">Blog Posts</h2>
-          <button
-            onClick={() => {
-              setIsAddingPost(true);
-              setEditingPost(null);
-            }}
-            className="btn btn-primary"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            New Post
-          </button>
-        </div>
-        {/* Search and Filter */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="relative flex-1">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search posts..."
-              className="input pl-10 w-full"
-            />
-            <Search
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={18}
-            />
-          </div>
-
-          <div className="relative w-full md:w-48">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="input w-full appearance-none pl-10"
+        {/* Blog Posts Section */}
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold">Blog Posts</h2>
+            <button
+              onClick={() => {
+                setIsAddingPost(true);
+                setEditingPost(null);
+              }}
+              className="btn btn-primary"
             >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-            <Filter
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={18}
-            />
+              <Plus className="mr-2 h-4 w-4" />
+              New Post
+            </button>
           </div>
-        </div>
-        Post Form
-        {(isAddingPost || editingPost) && (
-          <PostForm
-            post={editingPost}
-            onSubmit={handlePostSubmit}
-            onCancel={() => {
-              setIsAddingPost(false);
-              setEditingPost(null);
-            }}
-            categories={categories}
-          />
-        )}
-        {/* Posts Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="py-3 px-4 text-left">Title</th>
-                <th className="py-3 px-4 text-left">Category</th>
-                <th className="py-3 px-4 text-left">Date</th>
-                <th className="py-3 px-4 text-left">Status</th>
-                <th className="py-3 px-4 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={5} className="text-gray-500">
-                    <div className="flex justify-center items-center min-h-[200px]">
-                      <Loader
-                        className="animate-spin text-gray-500 px-2"
-                        size={40}
-                      />{" "}
-                      Fetching posts
-                    </div>
-                  </td>
-                </tr>
-              ) : (
-                <>
-                  {posts.map((post) => (
-                    <tr
-                      key={post._id}
-                      className="border-b hover:bg-gray-50 cursor-pointer"
-                      onClick={() => navigate(`/admin/post/${post._id}`)}
-                    >
-                      <td className="py-3 px-4">
-                        <div className="flex items-center">
-                          <img
-                            src={post.primaryImage}
-                            alt={post.title}
-                            className="w-10 h-10 rounded object-cover mr-3"
-                          />
-                          <span className="font-medium">{post.title}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className="px-2 py-1 bg-gray-100 rounded-full text-xs font-medium">
-                          {post.category.name}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-gray-500">
-                        {format(new Date(post.createdAt), "MMM d, yyyy")}
-                      </td>
-                      <td className="py-3 px-4">
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            post.isTrending
-                              ? "bg-green-100 text-green-600"
-                              : "bg-gray-100 text-gray-600"
-                          }`}
-                        >
-                          {post.isTrending ? "Trending" : "Published"}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4">
-                        <div
-                          className="flex items-center justify-center space-x-2"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <button
-                            className="p-1 text-blue-600 hover:bg-blue-50 rounded"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setEditingPost(post);
-                              setIsAddingPost(true);
-                            }}
-                          >
-                            <Edit size={18} />
-                          </button>
-                          <button
-                            className="p-1 text-red-600 hover:bg-red-50 rounded"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeletePost(post._id);
-                            }}
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+          {/* Search and Filter */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search posts..."
+                className="input pl-10 w-full"
+              />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={18}
+              />
+            </div>
 
-                  {posts.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={5}
-                        className="py-8 text-center text-gray-500"
+            <div className="relative w-full md:w-48">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="input w-full appearance-none pl-10"
+              >
+                <option value="">All Categories</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              <Filter
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={18}
+              />
+            </div>
+          </div>
+          Post Form
+          {(isAddingPost || editingPost) && (
+            <PostForm
+              post={editingPost}
+              onSubmit={handlePostSubmit}
+              onCancel={() => {
+                setIsAddingPost(false);
+                setEditingPost(null);
+              }}
+              categories={categories}
+            />
+          )}
+          {/* Posts Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="py-3 px-4 text-left">Title</th>
+                  <th className="py-3 px-4 text-left">Category</th>
+                  <th className="py-3 px-4 text-left">Date</th>
+                  <th className="py-3 px-4 text-left">Status</th>
+                  <th className="py-3 px-4 text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan={5} className="text-gray-500">
+                      <div className="flex justify-center items-center min-h-[200px]">
+                        <Loader
+                          className="animate-spin text-gray-500 px-2"
+                          size={40}
+                        />{" "}
+                        Fetching posts
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  <>
+                    {posts.map((post) => (
+                      <tr
+                        key={post._id}
+                        className="border-b hover:bg-gray-50 cursor-pointer"
+                        onClick={() => navigate(`/admin/post/${post._id}`)}
                       >
-                        No posts found. Try adjusting your search or create a
-                        new post.
-                      </td>
-                    </tr>
-                  )}
-                </>
-              )}
-            </tbody>
-          </table>
+                        <td className="py-3 px-4">
+                          <div className="flex items-center">
+                            <img
+                              src={post.primaryImage}
+                              alt={post.title}
+                              className="w-10 h-10 rounded object-cover mr-3"
+                            />
+                            <span className="font-medium">{post.title}</span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className="px-2 py-1 bg-gray-100 rounded-full text-xs font-medium">
+                            {post.category.name}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-gray-500">
+                          {format(new Date(post.createdAt), "MMM d, yyyy")}
+                        </td>
+                        <td className="py-3 px-4">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              post.isTrending
+                                ? "bg-green-100 text-green-600"
+                                : "bg-gray-100 text-gray-600"
+                            }`}
+                          >
+                            {post.isTrending ? "Trending" : "Published"}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <div
+                            className="flex items-center justify-center space-x-2"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <button
+                              className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingPost(post);
+                                setIsAddingPost(true);
+                              }}
+                            >
+                              <Edit size={18} />
+                            </button>
+                            <button
+                              className="p-1 text-red-600 hover:bg-red-50 rounded"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeletePost(post._id);
+                              }}
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+
+                    {posts.length === 0 && (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="py-8 text-center text-gray-500"
+                        >
+                          No posts found. Try adjusting your search or create a
+                          new post.
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

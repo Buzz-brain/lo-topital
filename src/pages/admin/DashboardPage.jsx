@@ -81,7 +81,8 @@ const DashboardPage = () => {
   ];
 
   return (
-    <div className="py-6">
+    <div className="px-4 overflow-x-auto">
+    <div className="min-w-[1024px] py-6">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="flex items-center">
@@ -95,7 +96,7 @@ const DashboardPage = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-4 gap-6 mb-8 min-w-[1024px]">
         {stats.map((stat, index) => (
           <motion.div
             key={index}
@@ -121,6 +122,7 @@ const DashboardPage = () => {
 
       {/* Blog Posts Section */}
       <BlogPostsPage />
+    </div>
     </div>
   );
 };

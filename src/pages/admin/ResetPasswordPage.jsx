@@ -24,11 +24,7 @@ const ResetPasswordPage = () => {
     }
 
     if (password.length < 6) {
-      return setError('Password must be at least 6 characters long');
-    }
-
-    if (password.length > 8) {
-      return setError('Password must not exceed 8 characters');
+      return setError('Password must contain at least 6 characters');
     }
 
     if (password !== confirmPassword) {
