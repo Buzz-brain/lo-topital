@@ -77,7 +77,7 @@ function VerifyEmail() {
               {verified ? (
                 <div className="mb-4 p-3 bg-green-50 text-green-600 rounded-md flex items-center">
                   <CheckCircle className="h-5 w-5 mr-2" />
-                  <span>Email verified successfully!</span>
+                  <span>Email verified successfully! Go to Login</span>
                 </div>
               ) : (
                 error && (
